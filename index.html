@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://packages.drupal.org; img-src 'self' data:; style-src 'self'; script-src 'self'; form-action 'none'; base-uri 'self'">
+<title>Drupal 10 to 11 upgrade scan and fixed quote, free in your browser | Liftpatch</title>
+<meta name="description" content="Drupal 10 reaches end of life on December 9, 2026. Paste your composer.lock to see which modules block Drupal 11 and get a fixed price for the upgrade. Runs in your browser; your code never leaves it.">
+<link rel="canonical" href="https://beingrealfrank.github.io/liftpatch/">
+<meta property="og:title" content="Drupal 11 readiness scan + fixed quote">
+<meta property="og:description" content="Paste composer.lock, see every module's Drupal 11 status, get a fixed price. In-browser, free.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="./">Liftpatch</a>
+  <nav><a href="#scan">Scan</a><a href="#how">How it works</a><a href="#pricing">Pricing</a><a href="agencies.html">Agencies</a><a href="#faq">FAQ</a></nav>
+</header>
+
+<main>
+<section class="hero">
+  <p class="deadline" id="deadline">Drupal 10 security support ends <strong>December 9, 2026</strong>.</p>
+  <h1>Find out what blocks your Drupal 11 upgrade, and what it costs to fix.</h1>
+  <p class="lede">Paste your <code>composer.lock</code>. In about ten seconds you get every contrib module's Drupal 11 status, the exact versions to move to, and a fixed price for the whole upgrade, delivered as a tested patch set. Free, no sign-up, and it runs in your browser.</p>
+</section>
+
+<section id="scan" class="card">
+  <h2>1. Your Composer file</h2>
+  <p class="hint">Use <code>composer.lock</code> from your project root for exact versions (best). <code>composer.json</code> also works. Drop the file here, choose it, or paste it.</p>
+  <div class="drop" id="drop">
+    <input type="file" id="lockfile" accept=".lock,.json,application/json">
+    <span>or drop composer.lock here</span> <button type="button" id="sample">Try a sample Drupal 10.2 site</button>
+  </div>
+  <textarea id="composer" rows="7" spellcheck="false" placeholder='{"packages": [ ... ]}'></textarea>
+
+  <h2>2. Custom code (optional, sharper quote)</h2>
+  <p class="hint">Choose your project folder or <code>web/modules/custom</code>. Files are read on this page only and never uploaded. We count custom modules and themes and look for APIs that Drupal 11 removed.</p>
+  <input type="file" id="folder" webkitdirectory directory multiple>
+  <p class="hint" id="folderinfo"></p>
+
+  <h2>3. Core modules leaving core in Drupal 11</h2>
+  <p class="hint">Tick any that are enabled on your site. Each moves to a contrib module.</p>
+  <div class="checks" id="coreRemoved"></div>
+
+  <button id="run" class="primary">Scan and quote</button>
+  <p id="err" class="err" role="alert"></p>
+</section>
+
+<section id="results" class="card" hidden>
+  <h2>Readiness</h2>
+  <div id="summary" class="summary"></div>
+  <div id="envnotes"></div>
+  <div class="tablewrap"><table id="table"><thead><tr><th>Module</th><th>Installed</th><th>Status</th><th>Move to</th><th>Notes</th></tr></thead><tbody></tbody></table></div>
+  <div id="codeout"></div>
+  <h2>Your fixed quote</h2>
+  <table id="quote" class="quote"><tbody></tbody></table>
+  <p class="hint">Quote reference <code id="qref"></code>. We honour the price if your repository matches this scan. If it doesn't, we tell you before any work starts and you can walk away.</p>
+  <div id="cta" class="cta"></div>
+  <div class="actions"><button id="copy">Copy report as Markdown</button><button id="download">Download report</button></div>
+</section>
+
+<section id="how">
+  <h2>How it works</h2>
+  <ol class="steps">
+    <li><strong>Scan.</strong> This page reads your Composer file and checks each project against drupal.org's release data. It's free and anonymous.</li>
+    <li><strong>Order.</strong> You accept the fixed price and give read access to a branch of your repository: a GitHub, GitLab or Bitbucket invite, or a zip.</li>
+    <li><strong>We upgrade in an isolated sandbox.</strong> Core goes to 11, contrib to the versions above, and custom code gets the Drupal 11 API changes. Then Upgrade Status, PHPStan deprecation checks and your own tests run.</li>
+    <li><strong>You get a patch set.</strong> It arrives as a pull request or <code>.patch</code> files, with the full diff, the green test log, a step-by-step deploy runbook and a rollback note. You merge and deploy, so nothing touches your production site.</li>
+  </ol>
+  <p class="honest"><strong>How the work is done, plainly:</strong> AI agents make the changes. Every change is verified by automated checks, your test suite and a second, independent reviewer agent, and you get the full diff and test evidence. A named operator approves every delivery. We don't claim that a human reviews every line.</p>
+</section>
+
+<section id="pricing">
+  <h2>Pricing</h2>
+  <p>The quote above is the price. It's built from these parts:</p>
+  <table class="quote"><tbody id="pricetable"></tbody></table>
+  <p class="hint">Typical small site (core + 20 to 40 contrib modules, 1 or 2 custom modules): about $1,500 to $2,500. Agencies pay 30% less on every line (<a href="agencies.html">details</a>). Larger estates over $9,000 get a custom quote from the same scan.</p>
+  <p><strong>Payment:</strong> under $3,000, paid in full on order. Larger jobs are paid 50% on order and 50% on delivery. If we can't deliver a green patch set, you get a full refund.</p>
+</section>
+
+<section id="faq">
+  <h2>FAQ</h2>
+  <details><summary>Is my code uploaded anywhere when I scan?</summary><p>No. The page reads your files in your browser. The only network requests are to <code>packages.drupal.org</code> for public release data about module names. You can check this in your browser's network tab, and the page's Content-Security-Policy blocks any other destination.</p></details>
+  <details><summary>What happens after December 9, 2026?</summary><p>Drupal 10 gets no more security releases. Sites keep running, but new core vulnerabilities stay unpatched and contrib modules start dropping Drupal 10 support.</p></details>
+  <details><summary>What do you need from us?</summary><p>A branch we can read and push to (or a zip), and your PHP version. A sanitised database dump is optional: with one, we also run <code>drush updatedb</code> against your data. There are no calls or meetings. Everything happens by email and in the pull request.</p></details>
+  <details><summary>Do you deploy to production?</summary><p>No. You (or your host) merge and deploy. We include a runbook: PHP 8.3 on the server, <code>composer install</code>, <code>drush updb</code>, <code>drush cr</code>, and what to check afterwards.</p></details>
+  <details><summary>What if a module has no Drupal 11 release?</summary><p>We apply the community compatibility patch if it exists, write one if it doesn't (and offer it upstream), or move you to the maintained replacement. Each is priced as a line in your quote.</p></details>
+  <details><summary>Server requirements for Drupal 11?</summary><p>PHP 8.3 or newer, MySQL 8.0 or MariaDB 10.6 (or PostgreSQL 16 or SQLite 3.45), Drush 13 and Composer 2.7. Your site must be on Drupal 10.3 or later before it moves to 11. If it isn't, the scan adds that catch-up step.</p></details>
+</section>
+</main>
+
+<footer>
+  <p>Liftpatch is an independent service and is not affiliated with or endorsed by the Drupal Association. Drupal is a registered trademark of Dries Buytaert. <a href="terms.html">Terms &amp; privacy</a></p>
+</footer>
+<script src="config.js"></script>
+<script src="scan.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
