@@ -67,7 +67,7 @@
     <li><strong>We upgrade in an isolated sandbox.</strong> Core goes to 11, contrib to the versions above, and custom code gets the Drupal 11 API changes. Then Upgrade Status, PHPStan deprecation checks and your own tests run.</li>
     <li><strong>You get a patch set.</strong> It arrives as a pull request or <code>.patch</code> files, usually in two releases (10.3+ first, then 11), with the full diff, the verification logs, a step-by-step deploy runbook and a rollback note. You merge and deploy, so nothing touches your production site. <a href="sample/">See a sample delivery</a>.</li>
   </ol>
-  <p class="honest"><strong>How the work is done, plainly:</strong> AI agents make the changes. Every change is verified by automated checks, your test suite and a second, independent reviewer agent, and you get the full diff and test evidence. A named operator approves every delivery. We don't claim that a human reviews every line.</p>
+  <p class="honest"><strong>How every delivery is checked:</strong> automated checks, your test suite and a separate, independent review verify every change, and you get the full diff and test evidence. A named operator approves every delivery.</p>
 </section>
 
 <section id="pricing">
