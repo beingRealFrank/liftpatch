@@ -104,7 +104,7 @@
       const body = encodeURIComponent(`Quote ${ref}: ${money(q.total)}\nSite URL:\nRepository host (GitHub/GitLab/Bitbucket/zip):\nPHP version on the server:\nAgency? (yes/no):\n\n--- report ---\n` + markdown().slice(0, 1500));
       cta.innerHTML = `<a class="primary big" href="mailto:${esc(CFG.email)}?subject=${subj}&body=${body}">Order this upgrade for ${money(q.total)}</a><p class="hint">This opens an email with your quote reference. You get a payment link and repository-access steps back within one business day. Delivery is usually within 5 business days of repository access.</p>`;
     } else {
-      cta.innerHTML = '<p class="hint">Ordering opens shortly. Download your report now; your quote reference stays valid until December 31, 2026.</p>';
+      cta.innerHTML = '<p class="hint">Download your report: your quote reference stays valid until December 31, 2026.</p>';
     }
   }
 

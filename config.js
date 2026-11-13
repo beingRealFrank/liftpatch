@@ -1,2 +1,2 @@
-// Ordering switch. Until orders open, the page offers the free scan and report only.
-window.LIFTPATCH = { ordersOpen: false, email: '', checkout: '' };
+// Orders arrive by email with the quote reference; we reply with a payment link and access steps.
+window.LIFTPATCH = { ordersOpen: true, email: 'frankjgilroy@gmail.com', checkout: '' };
