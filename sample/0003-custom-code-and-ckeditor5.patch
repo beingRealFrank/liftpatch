@@ -1,0 +1,197 @@
+From bc9a9f9b998b7138859c0b1fdc3e52d7cb7f93b2 Mon Sep 17 00:00:00 2001
+From: Liftpatch <noreply@liftpatch.invalid>
+Date: Fri, 13 Nov 2026 09:59:54 -0500
+Subject: [PATCH 3/4] Phase 1: custom code to Drupal 11 APIs; CKEditor 4 to
+ CKEditor 5 update
+
+acme_tools:
+- user_roles(TRUE) -> Role::loadMultiple() minus anonymous.
+- module_load_include() -> \Drupal::moduleHandler()->loadInclude().
+- watchdog_exception() -> Error::logException() (drupal-rector).
+- format_size() -> ByteSizeMarkup::create() (drupal-rector).
+- core_version_requirement ^10.3 || ^11.
+- acme_tools_post_update_ckeditor5_migration(): moves every CKEditor 4
+  text format to CKEditor 5 with core's smart-default settings, validates
+  all of them before saving any, then uninstalls drupal/ckeditor. Runs
+  with drush updb on the phase 1 release.
+
+acme_theme: base theme classy -> stable9. Classy left core in 10.0, so
+this theme could not be installed even on the baseline; stable9 is in
+core in 10 and 11 and the theme ships no templates or CSS that relied on
+Classy's markup.
+---
+ .../custom/acme_tools/acme_theme.info.yml     |   4 +-
+ .../custom/acme_tools/acme_tools.info.yml     |   2 +-
+ .../custom/acme_tools/acme_tools.module       |  24 +++-
+ .../acme_tools/acme_tools.post_update.php     | 107 ++++++++++++++++++
+ 4 files changed, 130 insertions(+), 7 deletions(-)
+ create mode 100644 web/modules/custom/acme_tools/acme_tools.post_update.php
+
+diff --git a/web/modules/custom/acme_tools/acme_theme.info.yml b/web/modules/custom/acme_tools/acme_theme.info.yml
+index 9e8e6be..305e8ed 100644
+--- a/web/modules/custom/acme_tools/acme_theme.info.yml
++++ b/web/modules/custom/acme_tools/acme_theme.info.yml
+@@ -1,4 +1,4 @@
+ name: Acme theme
+ type: theme
+-base theme: classy
+-core_version_requirement: ^10
++base theme: stable9
++core_version_requirement: ^10.3 || ^11
+diff --git a/web/modules/custom/acme_tools/acme_tools.info.yml b/web/modules/custom/acme_tools/acme_tools.info.yml
+index a46b449..36e34dc 100644
+--- a/web/modules/custom/acme_tools/acme_tools.info.yml
++++ b/web/modules/custom/acme_tools/acme_tools.info.yml
+@@ -1,3 +1,3 @@
+ name: Acme tools
+ type: module
+-core_version_requirement: ^9 || ^10
++core_version_requirement: ^10.3 || ^11
+diff --git a/web/modules/custom/acme_tools/acme_tools.module b/web/modules/custom/acme_tools/acme_tools.module
+index d102c08..d4f5239 100644
+--- a/web/modules/custom/acme_tools/acme_tools.module
++++ b/web/modules/custom/acme_tools/acme_tools.module
+@@ -1,7 +1,23 @@
+ <?php
++
++/**
++ * @file
++ * Acme tools.
++ */
++
++use Drupal\Core\StringTranslation\ByteSizeMarkup;
++use Drupal\Core\Utility\Error;
++use Drupal\user\Entity\Role;
++use Drupal\user\RoleInterface;
++
++/**
++ * Implements hook_cron().
++ */
+ function acme_tools_cron() {
+-  $roles = user_roles(TRUE);
+-  module_load_include('inc', 'acme_tools', 'acme_tools.batch');
+-  try { foo(); } catch (\Exception $e) { watchdog_exception('acme', $e); }
+-  $size = format_size(1024);
++  // user_roles(TRUE) was removed in Drupal 11: all roles except anonymous.
++  $roles = Role::loadMultiple();
++  unset($roles[RoleInterface::ANONYMOUS_ID]);
++  \Drupal::moduleHandler()->loadInclude('acme_tools', 'inc', 'acme_tools.batch');
++  try { foo(); } catch (\Exception $e) { Error::logException(\Drupal::logger('acme'), $e); }
++  $size = ByteSizeMarkup::create(1024);
+ }
+diff --git a/web/modules/custom/acme_tools/acme_tools.post_update.php b/web/modules/custom/acme_tools/acme_tools.post_update.php
+new file mode 100644
+index 0000000..6488147
+--- /dev/null
++++ b/web/modules/custom/acme_tools/acme_tools.post_update.php
+@@ -0,0 +1,107 @@
++<?php
++
++/**
++ * @file
++ * Post update functions for Acme tools.
++ */
++
++use Drupal\ckeditor5\Plugin\Editor\CKEditor5;
++use Drupal\editor\EditorInterface;
++use Drupal\editor\Entity\Editor;
++
++/**
++ * Move every text format from CKEditor 4 to CKEditor 5, then uninstall CKEditor 4.
++ *
++ * CKEditor 4 (drupal/ckeditor) has no Drupal 11 release. This does what the
++ * text format form does when an editor is switched to CKEditor 5 by hand: it
++ * computes CKEditor 5 settings from the CKEditor 4 toolbar and the format's
++ * allowed HTML, validates each pair, and only saves when every format
++ * validates. It must run on Drupal 10, while the CKEditor 4 code is present.
++ *
++ * If a CKEditor 4 toolbar had a button for HTML that the format's "Limit
++ * allowed HTML" filter never allowed (so it was stripped on output anyway),
++ * that button is left off the CKEditor 5 toolbar and logged. Allowed HTML is
++ * never widened.
++ */
++function acme_tools_post_update_ckeditor5_migration(&$sandbox = NULL) {
++  $module_handler = \Drupal::moduleHandler();
++  if (!$module_handler->moduleExists('ckeditor')) {
++    return t('CKEditor 4 is not installed; nothing to migrate.');
++  }
++  if (!$module_handler->moduleExists('ckeditor5')) {
++    \Drupal::service('module_installer')->install(['ckeditor5']);
++  }
++  $smart_default_settings = \Drupal::service('ckeditor5.smart_default_settings');
++  $logger = \Drupal::logger('acme_tools');
++
++  // Pass 1: compute and validate everything, save nothing.
++  $pairs = [];
++  $notes = [];
++  foreach (Editor::loadMultiple() as $editor) {
++    if ($editor->getEditor() !== 'ckeditor') {
++      continue;
++    }
++    $format = $editor->getFilterFormat();
++    [$new_editor] = $smart_default_settings->computeSmartDefaultSettings($editor, $format);
++    $violations = CKEditor5::validatePair($new_editor, $new_editor->getFilterFormat());
++    // Drop toolbar buttons, one at a time, while that removes violations.
++    while (count($violations)) {
++      $best = NULL;
++      foreach (array_unique($new_editor->getSettings()['toolbar']['items']) as $item) {
++        if ($item === '|' || $item === '-') {
++          continue;
++        }
++        $candidate = _acme_tools_ckeditor5_without_item($new_editor, $item);
++        $candidate_violations = CKEditor5::validatePair($candidate, $candidate->getFilterFormat());
++        if (count($candidate_violations) < count($violations)) {
++          $best = [$item, $candidate, $candidate_violations];
++          break;
++        }
++      }
++      if (!$best) {
++        break;
++      }
++      [$item, $new_editor, $violations] = $best;
++      $notes[] = "{$format->id()}: dropped toolbar button '$item' (its HTML is not allowed by the format)";
++    }
++    if (count($violations)) {
++      $problems = [];
++      foreach ($violations as $violation) {
++        $problems[] = $violation->getPropertyPath() . ': ' . strip_tags(html_entity_decode((string) $violation->getMessage()));
++      }
++      // Stop before saving anything: a half-migrated site is worse than a pending update.
++      throw new \RuntimeException(sprintf('Text format %s cannot be moved to CKEditor 5 automatically, nothing was changed: %s', $format->id(), implode('; ', $problems)));
++    }
++    $pairs[$format->id()] = $new_editor;
++  }
++
++  // Pass 2: save.
++  foreach ($pairs as $new_editor) {
++    $new_editor->getFilterFormat()->save();
++    $new_editor->save();
++  }
++  foreach ($notes as $note) {
++    $logger->warning('CKEditor 5 migration: @note', ['@note' => $note]);
++  }
++  \Drupal::service('module_installer')->uninstall(['ckeditor']);
++  return t('Moved to CKEditor 5: @formats. CKEditor 4 uninstalled. @notes', [
++    '@formats' => $pairs ? implode(', ', array_keys($pairs)) : 'none',
++    '@notes' => implode('. ', $notes),
++  ]);
++}
++
++/**
++ * Returns a copy of a CKEditor 5 editor without one toolbar item.
++ *
++ * Settings for plugins that the removal disables are dropped too.
++ */
++function _acme_tools_ckeditor5_without_item(EditorInterface $editor, string $item): EditorInterface {
++  $candidate = clone $editor;
++  $settings = $candidate->getSettings();
++  $settings['toolbar']['items'] = array_values(array_filter($settings['toolbar']['items'], fn($i) => $i !== $item));
++  $candidate->setSettings($settings);
++  $enabled = \Drupal::service('plugin.manager.ckeditor5.plugin')->getEnabledDefinitions($candidate);
++  $settings['plugins'] = array_intersect_key($settings['plugins'] ?? [], $enabled);
++  $candidate->setSettings($settings);
++  return $candidate;
++}
+-- 
+2.45.2
+

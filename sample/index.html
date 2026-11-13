@@ -1,0 +1,29 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'">
+<title>Sample Drupal 10 → 11 delivery: evidence pack | Liftpatch</title>
+<meta name="description" content="A full Liftpatch delivery on a test site: Drupal 10.2.7 to 11.4.12 with 13 contrib modules, CKEditor 4 to 5, Book and Forum moved to contrib, and custom-code fixes, plus verification logs and a deploy runbook.">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../style.css"></head><body>
+<header class="top"><a class="brand" href="../">Liftpatch</a><nav><a href="../#scan">Scan</a><a href="../modules/">Module atlas</a><a href="../#pricing">Pricing</a></nav></header>
+<main>
+<h1>What a delivery looks like</h1>
+<p class="lede">This is a real run of our pipeline on a test site we built to look like a typical client site, so you can see the evidence before you order.</p>
+<table class="quote"><tbody>
+<tr><td>Before</td><td>Drupal 10.2.7, Drush 12, CKEditor 4, 13 contrib modules, Book + Forum, a custom module using 4 removed APIs, and a theme based on Classy</td></tr>
+<tr><td>After</td><td>Drupal 11.4.12, Drush 13, CKEditor 5 on every text format, contrib on Drupal 11 releases, Book and Forum from contrib</td></tr>
+<tr><td>Upgrade Status (custom code)</td><td>No issues</td></tr>
+<tr><td>PHPStan deprecation rules (custom code)</td><td>6 errors → 0 deprecations, on both 10.6 and 11.4</td></tr>
+<tr><td>drush updb / updatedb:status</td><td>Success, with no pending updates and no pending entity schema updates</td></tr>
+<tr><td>Smoke test</td><td>/, /user/login, /node/1, /node/2, /forum, /book all return HTTP 200</td></tr>
+<tr><td>Rollback drill</td><td>Release 1 code + pre-upgrade database boots and serves 200s</td></tr>
+<tr><td>Pre-existing bugs we found but didn't change</td><td>2 (a call to an undefined function in cron, and a missing include file), reported in the runbook for you to decide</td></tr>
+</tbody></table>
+<h2>What you receive</h2>
+<ul>
+<li>A pull request, or 4 <code>git am</code>-ready patches, split into two releases. Drupal 11 only updates databases already on 10.3+, and CKEditor 4 must be uninstalled while its code is still present.</li>
+<li>A <a href="RUNBOOK.md">deploy runbook</a> covering server requirements, backups, the exact commands for each release, what to check afterwards, and rollback.</li>
+<li>The verification logs. See the <a href="final-verification-d11.log">final Drupal 11 verification log</a> from this run.</li>
+<li>An example patch: <a href="0003-custom-code-and-ckeditor5.patch">custom code moved to Drupal 11 APIs and CKEditor 4 → 5</a>.</li>
+</ul>
+<p><a class="primary" href="../#scan">Scan your site and get a fixed price</a></p>
+</main>
+<footer><p>Not affiliated with the Drupal Association. Drupal is a registered trademark of Dries Buytaert.</p></footer></body></html>

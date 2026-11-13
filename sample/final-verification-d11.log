@@ -1,0 +1,36 @@
+
+### 2026-11-13T15:15:05Z  [/work/run1]  set -e; echo "== replay: phase-1 DB (10.6, post-updb) + phase-2 code (11.4), runbook order =="; cp db/phase1-d10.sqlite db/site.sqlite; composer install --no-dev --dry-run 2>&1 | tail -1; composer validate --no-check-publish; vendor/bin/drush -y updatedb 2>&1 | grep -E "success|error|rror|skipped" ; vendor/bin/drush cr; vendor/bin/drush status --fields=drupal-version,php-version,db-driver,db-status,bootstrap; echo "-- updatedb:status"; vendor/bin/drush updatedb:status; echo "-- entity updates"; vendor/bin/drush php:eval "echo \Drupal::entityDefinitionUpdateManager()->needsUpdates() ? \"ENTITY UPDATES PENDING\" : \"no entity/field schema updates pending\", PHP_EOL;"; echo "-- editors"; vendor/bin/drush php:eval "foreach (\Drupal::entityTypeManager()->getStorage(\"editor\")->loadMultiple() as \$e) echo \$e->id(), \" => \", \$e->getEditor(), PHP_EOL;"; echo "-- requirements errors"; vendor/bin/drush core:requirements --severity=2 --fields=title,value --format=csv; echo "-- HTTP"; bash /work/.liftpatch/smoke.sh / /user/login /node/1 /node/2 /forum /book; cp db/site.sqlite db/final-d11.sqlite
+== replay: phase-1 DB (10.6, post-updb) + phase-2 code (11.4), runbook order ==
+Use the `composer fund` command to find out more!
+./composer.json is valid
+                                                   only to prevent errors when      
+>  [notice] Update 11102 for the system module has been skipped because the equivalent change was already made in update 10400.
+>  [notice] Update 11300 for the system module has been skipped because the equivalent change was already made in update 10600.
+ [success] Finished performing updates.
+ [success] Cache rebuild complete.
+Drupal version   : 11.4.12    
+PHP version      : 8.3.36     
+DB driver        : sqlite     
+Database         : Connected  
+Drupal bootstrap : Successful 
+-- updatedb:status
+ [success] No database updates required.
+-- entity updates
+no entity/field schema updates pending
+-- editors
+basic_html => ckeditor5
+full_html => ckeditor5
+legacy_html => ckeditor5
+webform_default => ckeditor5
+-- requirements errors
+Title,Summary
+"Trusted Host Settings","Not enabled
+-- HTTP
+GET / -> 200  15376 bytes  title="| Acme D10"
+GET /user/login -> 200  17386 bytes  title="Log in | Acme D10"
+GET /node/1 -> 200  15608 bytes  title="Hello from D10 | Acme D10"
+GET /node/2 -> 200  14945 bytes  title="Handbook | Acme D10"
+GET /forum -> 200  15360 bytes  title="Forums | Acme D10"
+GET /book -> 200  14464 bytes  title="Books | Acme D10"
+SMOKE: PASS
+### exit=0
