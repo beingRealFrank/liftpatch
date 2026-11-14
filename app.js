@@ -74,6 +74,7 @@
     const q = quote(results, env, codeScan);
     last = { results, env, q, code: codeScan };
     render(last);
+    window.goatcounter && goatcounter.count && goatcounter.count({ path: 'scan_run', title: 'scan run', event: true });
     $('#run').disabled = false; $('#run').textContent = 'Scan and quote';
   });
 
@@ -123,6 +124,7 @@
     md += '\n\n## Fixed quote\n' + q.lines.map((l) => `- ${l.label}: $${l.amount}`).join('\n') + `\n- **Total: $${q.total}** (agency: $${q.agency})\n`;
     return md;
   }
+  $('#cta').addEventListener('click', (e) => { if (e.target.closest('a.primary')) window.goatcounter && goatcounter.count && goatcounter.count({ path: 'order_click', title: 'order click', event: true }); });
   $('#copy').addEventListener('click', async () => { await navigator.clipboard.writeText(markdown()); $('#copy').textContent = 'Copied'; setTimeout(() => ($('#copy').textContent = 'Copy report as Markdown'), 1500); });
   $('#download').addEventListener('click', () => { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([markdown()], { type: 'text/markdown' })); a.download = `drupal11-report-${$('#qref').textContent}.md`; a.click(); });
 })();

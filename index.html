@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://packages.drupal.org; img-src 'self' data:; style-src 'self'; script-src 'self'; form-action 'none'; base-uri 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://packages.drupal.org https://liftpatch.goatcounter.com; img-src 'self' data:; style-src 'self'; script-src 'self' https://gc.zgo.at; form-action 'none'; base-uri 'self'">
 <title>Drupal 10 to 11 upgrade scan and fixed quote, free in your browser | Liftpatch</title>
 <meta name="description" content="Drupal 10 reaches end of life on December 9, 2026. Paste your composer.lock to see which modules block Drupal 11 and get a fixed price for the upgrade. Runs in your browser; your code never leaves it.">
 <link rel="canonical" href="https://beingrealfrank.github.io/liftpatch/">
@@ -80,7 +80,7 @@
 
 <section id="faq">
   <h2>FAQ</h2>
-  <details><summary>Is my code uploaded anywhere when I scan?</summary><p>No. The page reads your files in your browser. The only network requests are to <code>packages.drupal.org</code> for public release data about module names. You can check this in your browser's network tab, and the page's Content-Security-Policy blocks any other destination.</p></details>
+  <details><summary>Is my code uploaded anywhere when I scan?</summary><p>No. The page reads your files in your browser. The only network requests are to <code>packages.drupal.org</code> for public release data about module names, and an anonymous page-view and button-click count to GoatCounter (no cookies; it never includes your files or module names). You can check this in your browser's network tab, and the page's Content-Security-Policy blocks any other destination.</p></details>
   <details><summary>Is a specific module ready for Drupal 11?</summary><p>See the <a href="modules/">Drupal 11 compatibility atlas</a> for 200+ popular modules. Each one shows its minimum Drupal 11 version, the safe step to take while you're still on 10, and its Drupal 12 status.</p></details>
   <details><summary>What happens after December 9, 2026?</summary><p>Drupal 10 gets no more security releases. Sites keep running, but new core vulnerabilities stay unpatched and contrib modules start dropping Drupal 10 support.</p></details>
   <details><summary>What do you need from us?</summary><p>A branch we can read and push to (or a zip), and your PHP version. A sanitised SQLite copy of your database is optional: with one, we also run <code>drush updatedb</code> against your data. Without one, we run it on a test site built from your modules. There are no calls or meetings. Everything happens by email and in the pull request.</p></details>
@@ -96,5 +96,6 @@
 <script src="config.js"></script>
 <script src="scan.js"></script>
 <script src="app.js"></script>
+<script data-goatcounter="https://liftpatch.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
