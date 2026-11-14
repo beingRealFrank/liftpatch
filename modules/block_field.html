@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; img-src 'self' data:">
-<title>Is block_field compatible with Drupal 11? | Liftpatch</title><meta name="description" content="block_field Drupal 11 compatibility: Pre-release only. Minimum version, upgrade path from Drupal 10, and Drupal 12 status. Checked 2026-11-13."><link rel="canonical" href="https://beingrealfrank.github.io/liftpatch/modules/block_field.html">
+<title>block_field Drupal 11 compatibility and upgrade steps | Liftpatch</title><meta name="description" content="block_field Drupal 11 compatibility: Pre-release only. Exact composer require line, upgrade steps from Drupal 10, and Drupal 12 status. Checked 2026-11-14."><link rel="canonical" href="https://beingrealfrank.github.io/liftpatch/modules/block_field.html">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../style.css"></head><body>
 <header class="top"><a class="brand" href="../">Liftpatch</a><nav><a href="../#scan">Scan your site</a><a href="./">Module atlas</a><a href="../#pricing">Pricing</a></nav></header><main><p class="hint"><a href="./">Module atlas</a> › block_field</p>
 <h1>Is block_field compatible with Drupal 11?</h1>
@@ -17,4 +17,10 @@
 </tbody></table>
 <h2>Upgrading from Drupal 10</h2>
 <p>Options: apply a community compatibility patch from the issue queue (often found by searching "Drupal 11" in the project's issues), port the module, or replace it with a maintained alternative.</p>
-<p>Drupal 10 security support ends on December 9, 2026. To see every module on your site at once, <a class="primary" href="../#scan">scan your composer.lock</a>. The scan is free, runs in your browser, and gives you a fixed price for the whole upgrade.</p></main><footer><p>Data from packages.drupal.org, checked 2026-11-13. Not affiliated with the Drupal Association. Drupal is a registered trademark of Dries Buytaert.</p></footer></body></html>
+<h2>Composer line and checks</h2>
+<p>Only a pre-release supports Drupal 11: <code>composer require drupal/block_field:1.0.0-rc5</code> (set <code>minimum-stability</code> for this package only, and test it first).</p>
+<p>Run <a href="https://www.drupal.org/project/upgrade_status" rel="noopener">Upgrade Status</a> and <a href="https://github.com/palantirnet/drupal-rector" rel="noopener">Drupal Rector</a> against your own code that uses block_field. Rector fixes many removed or deprecated API calls automatically; calls it can't rewrite, and any custom code touching this module's APIs, need a manual fix.</p>
+<p>Look for a Drupal 11 compatibility issue: <a href="https://www.drupal.org/project/issues/search/block_field?text=Drupal+11" rel="noopener">search the block_field issue queue for "Drupal 11"</a>.</p>
+<p class="hint">Last checked against packages.drupal.org on 2026-11-14.</p>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is block_field compatible with Drupal 11?","acceptedAnswer":{"@type":"Answer","text":"Only in a pre-release (1.0.0-rc5); no stable release supports Drupal 11 yet."}},{"@type":"Question","name":"How do I upgrade block_field for Drupal 11?","acceptedAnswer":{"@type":"Answer","text":"Apply a community compatibility patch, port the module, or replace it."}}]}</script>
+<p>Drupal 10 security support ends on December 9, 2026. To see every module on your site at once, <a class="primary" href="../#scan">scan your composer.lock</a>. The scan is free, runs in your browser, and gives you a fixed price for the whole upgrade.</p></main><footer><p>Data from packages.drupal.org, checked 2026-11-14. Not affiliated with the Drupal Association. Drupal is a registered trademark of Dries Buytaert.</p></footer></body></html>

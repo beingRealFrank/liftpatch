@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; img-src 'self' data:">
-<title>Is stage_file_proxy compatible with Drupal 11? | Liftpatch</title><meta name="description" content="stage_file_proxy Drupal 11 compatibility: Drupal 11 ready. Minimum version, upgrade path from Drupal 10, and Drupal 12 status. Checked 2026-11-13."><link rel="canonical" href="https://beingrealfrank.github.io/liftpatch/modules/stage_file_proxy.html">
+<title>stage_file_proxy Drupal 11 compatibility and upgrade steps | Liftpatch</title><meta name="description" content="stage_file_proxy Drupal 11 compatibility: Drupal 11 ready. Exact composer require line, upgrade steps from Drupal 10, and Drupal 12 status. Checked 2026-11-14."><link rel="canonical" href="https://beingrealfrank.github.io/liftpatch/modules/stage_file_proxy.html">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../style.css"></head><body>
 <header class="top"><a class="brand" href="../">Liftpatch</a><nav><a href="../#scan">Scan your site</a><a href="./">Module atlas</a><a href="../#pricing">Pricing</a></nav></header><main><p class="hint"><a href="./">Module atlas</a> › stage_file_proxy</p>
 <h1>Is stage_file_proxy compatible with Drupal 11?</h1>
@@ -17,4 +17,10 @@
 </tbody></table>
 <h2>Upgrading from Drupal 10</h2>
 <p>While you're still on Drupal 10, update stage_file_proxy to <b>3.1.7</b> with <code>composer require drupal/stage_file_proxy:^3.1</code>. Then run <code>drush updb</code>. That release works on both 10 and 11, so it won't block the core upgrade.</p>
-<p>Drupal 10 security support ends on December 9, 2026. To see every module on your site at once, <a class="primary" href="../#scan">scan your composer.lock</a>. The scan is free, runs in your browser, and gives you a fixed price for the whole upgrade.</p></main><footer><p>Data from packages.drupal.org, checked 2026-11-13. Not affiliated with the Drupal Association. Drupal is a registered trademark of Dries Buytaert.</p></footer></body></html>
+<h2>Composer line and checks</h2>
+<p><code>composer require drupal/stage_file_proxy:^3.1</code> on Drupal 10, then <code>drush updb</code>.</p>
+<p>Run <a href="https://www.drupal.org/project/upgrade_status" rel="noopener">Upgrade Status</a> and <a href="https://github.com/palantirnet/drupal-rector" rel="noopener">Drupal Rector</a> against your own code that uses stage_file_proxy. Rector fixes many removed or deprecated API calls automatically; calls it can't rewrite, and any custom code touching this module's APIs, need a manual fix.</p>
+
+<p class="hint">Last checked against packages.drupal.org on 2026-11-14.</p>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is stage_file_proxy compatible with Drupal 11?","acceptedAnswer":{"@type":"Answer","text":"Yes. stage_file_proxy supports Drupal 11 from version 1.0.0."}},{"@type":"Question","name":"How do I upgrade stage_file_proxy for Drupal 11?","acceptedAnswer":{"@type":"Answer","text":"While on Drupal 10, update to 3.1.7 (composer require drupal/stage_file_proxy:^3.1), run drush updb, then upgrade core."}}]}</script>
+<p>Drupal 10 security support ends on December 9, 2026. To see every module on your site at once, <a class="primary" href="../#scan">scan your composer.lock</a>. The scan is free, runs in your browser, and gives you a fixed price for the whole upgrade.</p></main><footer><p>Data from packages.drupal.org, checked 2026-11-14. Not affiliated with the Drupal Association. Drupal is a registered trademark of Dries Buytaert.</p></footer></body></html>
