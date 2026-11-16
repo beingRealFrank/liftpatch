@@ -1,0 +1,38 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self' https://gc.zgo.at; connect-src https://liftpatch.goatcounter.com; img-src 'self' data:">
+<title>Drupal core modules removed in Drupal 11 (and what replaces them) | Liftpatch</title>
+<meta name="description" content="Action UI, Book, Forum, Statistics, Tour and Activity Tracker left Drupal core in Drupal 11. How to check if you use them and move to the contrib versions before you upgrade.">
+<link rel="canonical" href="https://beingrealfrank.github.io/liftpatch/drupal-core-modules-removed-in-11.html"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Drupal core modules removed in Drupal 11 (and what replaces them)","datePublished":"2026-11-16","author":{"@type":"Organization","name":"Liftpatch"},"mainEntityOfPage":"https://beingrealfrank.github.io/liftpatch/drupal-core-modules-removed-in-11.html"}</script></head><body>
+<header class="top"><a class="brand" href="./">Liftpatch</a><nav><a href="./#scan">Scan</a><a href="./#pricing">Pricing</a><a href="modules/">Module atlas</a><a href="drupal-10-end-of-life.html">Drupal 10 EOL guide</a></nav></header>
+<main>
+<p class="deadline">Drupal 10 security support ends <strong>December 9, 2026</strong>.</p>
+
+<h1>Drupal core modules removed in Drupal 11</h1>
+<p class="lede">Six modules that shipped in Drupal 10 core are not in Drupal 11 core: <strong>Action UI, Book, Forum, Statistics, Tour and Activity Tracker</strong>. If any are enabled on your site, you must switch to the contributed version before you move core to 11, or the upgrade will fail or lose functionality.</p>
+<h2>Check what's enabled</h2>
+<pre><code>drush pm:list --status=enabled --type=module | grep -E "action|book|forum|statistics|tour|tracker"</code></pre>
+<p>The <a href="./#scan">free scanner</a> also asks which of these you use and adds each to your quote.</p>
+<h2>What to do for each</h2>
+<table class="quote"><thead><tr><th>Module</th><th>What it did</th><th>What to do</th></tr></thead><tbody>
+<tr><td>Action UI</td><td>Admin interface for configurable actions</td><td>Install the contrib project of the same name while still on Drupal 10, then confirm your actions still appear.</td></tr>
+<tr><td>Book</td><td>Hierarchical book outlines</td><td>Install the contrib Book project; check outlines and navigation blocks after.</td></tr>
+<tr><td>Forum</td><td>Discussion forums</td><td>Install the contrib Forum project, or migrate to a dedicated forum tool if usage is low.</td></tr>
+<tr><td>Statistics</td><td>Content view counters</td><td>Install the contrib project, or replace with an analytics service; stored view counts are in the database.</td></tr>
+<tr><td>Tour</td><td>Guided admin tours</td><td>Install the contrib project if editors rely on tours; otherwise uninstall.</td></tr>
+<tr><td>Activity Tracker</td><td>Recent-activity listings</td><td>Install the contrib project, or rebuild the view if you only need a recent-content list.</td></tr>
+</tbody></table>
+<h2>The safe order</h2>
+<ol>
+<li>On Drupal 10, <code>composer require drupal/&lt;module&gt;</code> for the contrib replacement. Because it has the same machine name, the enabled state and configuration carry over.</li>
+<li>Verify the feature in staging.</li>
+<li>Only then move core to 11. <a href="drupal-11-composer-errors.html">Composer errors?</a></li>
+</ol>
+<p>Confirm names and the exact project pages on drupal.org before you start, since projects get renamed and maintainers change. Check each one in the <a href="modules/">atlas</a> as well.</p>
+
+<p class="cta"><a class="primary big" href="./#scan">Scan your composer.lock: free, in your browser, fixed quote in 30 seconds</a></p>
+<p class="hint">Related: <a href="drupal-10-end-of-life.html">Drupal 10 end-of-life guide</a> · <a href="drupal-11-upgrade-cost.html">Upgrade cost</a> · <a href="drupal-11-requirements.html">Requirements</a> · <a href="drupal-11-composer-errors.html">Composer errors</a> · <a href="drupal-core-modules-removed-in-11.html">Modules removed from core</a> · <a href="modules/">Module atlas</a>. Liftpatch is independent and not affiliated with the Drupal Association. Drupal is a registered trademark of Dries Buytaert.</p>
+</main>
+<footer><p><a href="terms.html">Terms &amp; privacy</a></p></footer>
+<script data-goatcounter="https://liftpatch.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body></html>

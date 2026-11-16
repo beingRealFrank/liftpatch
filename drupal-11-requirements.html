@@ -1,0 +1,44 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self' https://gc.zgo.at; connect-src https://liftpatch.goatcounter.com; img-src 'self' data:">
+<title>Drupal 11 system requirements: PHP, database, Drush, Composer | Liftpatch</title>
+<meta name="description" content="Drupal 11 requirements: PHP 8.3 or newer, MySQL 8.0, MariaDB 10.6, PostgreSQL 16 or SQLite 3.45, Drush 13 and Composer 2.7, plus what to check before you upgrade from Drupal 10.">
+<link rel="canonical" href="https://beingrealfrank.github.io/liftpatch/drupal-11-requirements.html"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Drupal 11 system requirements: PHP, database, Drush, Composer","datePublished":"2026-11-16","author":{"@type":"Organization","name":"Liftpatch"},"mainEntityOfPage":"https://beingrealfrank.github.io/liftpatch/drupal-11-requirements.html"}</script></head><body>
+<header class="top"><a class="brand" href="./">Liftpatch</a><nav><a href="./#scan">Scan</a><a href="./#pricing">Pricing</a><a href="modules/">Module atlas</a><a href="drupal-10-end-of-life.html">Drupal 10 EOL guide</a></nav></header>
+<main>
+<p class="deadline">Drupal 10 security support ends <strong>December 9, 2026</strong>.</p>
+
+<h1>Drupal 11 system requirements</h1>
+<p class="lede">Drupal 11 needs <strong>PHP 8.3 or newer</strong>. Most failed Drupal 11 upgrades start with the server, not the code, so check these first.</p>
+<h2>The requirements</h2>
+<table class="quote"><tbody>
+<tr><td>PHP</td><td>8.3 or newer</td></tr>
+<tr><td>MySQL</td><td>8.0</td></tr>
+<tr><td>MariaDB</td><td>10.6</td></tr>
+<tr><td>PostgreSQL</td><td>16</td></tr>
+<tr><td>SQLite</td><td>3.45</td></tr>
+<tr><td>Drush</td><td>13</td></tr>
+<tr><td>Composer</td><td>2.7 or newer</td></tr>
+<tr><td>Starting Drupal version</td><td>10.3 or later</td></tr>
+</tbody></table>
+<p>Confirm against the <a href="https://www.drupal.org/docs/system-requirements">official system requirements</a> on drupal.org before you commit, because minor releases can raise a minimum.</p>
+<h2>Check what you have</h2>
+<pre><code>php -v
+composer --version
+drush --version
+drush status --fields=drupal-version,db-driver,php-version</code></pre>
+<h2>Common problems</h2>
+<ul>
+<li><strong>PHP 8.1 or 8.2 on the host.</strong> Drupal 10 ran on those, Drupal 11 will not. Raise the PHP version in staging first; some old modules and libraries break on 8.3, which is separate from the Drupal upgrade.</li>
+<li><strong>Drush 12 or older.</strong> Update with <code>composer require drush/drush:^13</code>. Run it from the project, not a global install.</li>
+<li><strong>A managed host that pins PHP.</strong> Look for the PHP setting in your hosting dashboard, and ask support what the deadline for changing it is.</li>
+<li><strong>Core older than 10.3.</strong> Move to the latest 10.x first. See the <a href="drupal-10-end-of-life.html">step-by-step guide</a>.</li>
+</ul>
+<p>The free <a href="./#scan">scanner</a> reads your core and Drush versions from <code>composer.lock</code> and adds the catch-up step to your quote when it's needed.</p>
+
+<p class="cta"><a class="primary big" href="./#scan">Scan your composer.lock: free, in your browser, fixed quote in 30 seconds</a></p>
+<p class="hint">Related: <a href="drupal-10-end-of-life.html">Drupal 10 end-of-life guide</a> · <a href="drupal-11-upgrade-cost.html">Upgrade cost</a> · <a href="drupal-11-requirements.html">Requirements</a> · <a href="drupal-11-composer-errors.html">Composer errors</a> · <a href="drupal-core-modules-removed-in-11.html">Modules removed from core</a> · <a href="modules/">Module atlas</a>. Liftpatch is independent and not affiliated with the Drupal Association. Drupal is a registered trademark of Dries Buytaert.</p>
+</main>
+<footer><p><a href="terms.html">Terms &amp; privacy</a></p></footer>
+<script data-goatcounter="https://liftpatch.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body></html>

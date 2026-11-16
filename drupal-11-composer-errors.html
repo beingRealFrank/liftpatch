@@ -1,0 +1,40 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self' https://gc.zgo.at; connect-src https://liftpatch.goatcounter.com; img-src 'self' data:">
+<title>Drupal 11 composer update fails: how to fix 'your requirements could not be resolved' | Liftpatch</title>
+<meta name="description" content="Composer won't update to Drupal 11? Use composer why-not to find the module that blocks it, then update it, patch it with the lenient plugin or replace it. Step-by-step.">
+<link rel="canonical" href="https://beingrealfrank.github.io/liftpatch/drupal-11-composer-errors.html"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Drupal 11 composer update fails: how to fix 'your requirements could not be resolved'","datePublished":"2026-11-16","author":{"@type":"Organization","name":"Liftpatch"},"mainEntityOfPage":"https://beingrealfrank.github.io/liftpatch/drupal-11-composer-errors.html"}</script></head><body>
+<header class="top"><a class="brand" href="./">Liftpatch</a><nav><a href="./#scan">Scan</a><a href="./#pricing">Pricing</a><a href="modules/">Module atlas</a><a href="drupal-10-end-of-life.html">Drupal 10 EOL guide</a></nav></header>
+<main>
+<p class="deadline">Drupal 10 security support ends <strong>December 9, 2026</strong>.</p>
+
+<h1>Composer won't update to Drupal 11: finding and fixing the blocker</h1>
+<p class="lede">The error looks like <code>Your requirements could not be resolved to an installable set of packages</code>, followed by a list of <code>drupal/some_module</code> packages that "require drupal/core ^8 || ^9 || ^10". Each package in that list only allows older Drupal versions. Fix them one at a time.</p>
+<h2>Step 1: ask Composer exactly what blocks core 11</h2>
+<pre><code>composer why-not drupal/core 11.4.0</code></pre>
+<p>This lists every installed package whose constraint excludes Drupal 11. Those are the only things between you and the upgrade.</p>
+<h2>Step 2: for each blocker, check for a newer release</h2>
+<pre><code>composer show drupal/some_module --all | grep versions
+composer outdated "drupal/*"</code></pre>
+<p>Most active modules already have a release that declares Drupal 11 support. If so, update it while you are still on Drupal 10:</p>
+<pre><code>composer require drupal/some_module:^3.0 -W</code></pre>
+<p>Look up a module in the <a href="modules/">atlas</a> to see its minimum Drupal 11 version and the safe step to take now.</p>
+<h2>Step 3: if there is no release, you have three routes</h2>
+<ol>
+<li><strong>A community patch.</strong> Search the module's issue queue for "Drupal 11 compatibility". If a merge request passes tests, apply it with <code>cweagans/composer-patches</code>.</li>
+<li><strong>The lenient plugin, as a stopgap.</strong> The <code>mglaman/composer-drupal-lenient</code> plugin lets Composer install a package whose declared constraint excludes Drupal 11. It only changes what Composer allows; it does not make the code work. Test the module before you rely on it, and treat it as temporary.</li>
+<li><strong>Replace the module</strong> with a maintained alternative, or port it yourself and offer the patch upstream.</li>
+</ol>
+<h2>Step 4: check custom code too</h2>
+<p>Composer only knows version constraints. Run Upgrade Status and Rector to find deprecated API calls in your custom modules; <a href="drupal-10-end-of-life.html">the commands are here</a>.</p>
+<h2>Step 5: then move core</h2>
+<pre><code>composer require drupal/core-recommended:^11.4 drupal/core-composer-scaffold:^11.4 drupal/core-project-message:^11.4 --update-with-all-dependencies
+drush updatedb -y &amp;&amp; drush cache:rebuild</code></pre>
+<p>Do all of this on a branch or a copy of the site, never production. If the list of blockers is long, paste your <code>composer.lock</code> into the <a href="./#scan">free scanner</a>: it classifies every module and shows what each fix costs.</p>
+
+<p class="cta"><a class="primary big" href="./#scan">Scan your composer.lock: free, in your browser, fixed quote in 30 seconds</a></p>
+<p class="hint">Related: <a href="drupal-10-end-of-life.html">Drupal 10 end-of-life guide</a> · <a href="drupal-11-upgrade-cost.html">Upgrade cost</a> · <a href="drupal-11-requirements.html">Requirements</a> · <a href="drupal-11-composer-errors.html">Composer errors</a> · <a href="drupal-core-modules-removed-in-11.html">Modules removed from core</a> · <a href="modules/">Module atlas</a>. Liftpatch is independent and not affiliated with the Drupal Association. Drupal is a registered trademark of Dries Buytaert.</p>
+</main>
+<footer><p><a href="terms.html">Terms &amp; privacy</a></p></footer>
+<script data-goatcounter="https://liftpatch.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body></html>

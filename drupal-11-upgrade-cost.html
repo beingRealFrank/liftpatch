@@ -1,0 +1,48 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self' https://gc.zgo.at; connect-src https://liftpatch.goatcounter.com; img-src 'self' data:">
+<title>How much does a Drupal 10 to 11 upgrade cost? | Liftpatch</title>
+<meta name="description" content="What a Drupal 10 to 11 upgrade costs in 2026: the factors that move the price, rough effort for small sites, and Liftpatch's published fixed prices.">
+<link rel="canonical" href="https://beingrealfrank.github.io/liftpatch/drupal-11-upgrade-cost.html"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How much does a Drupal 10 to 11 upgrade cost?","datePublished":"2026-11-16","author":{"@type":"Organization","name":"Liftpatch"},"mainEntityOfPage":"https://beingrealfrank.github.io/liftpatch/drupal-11-upgrade-cost.html"}</script></head><body>
+<header class="top"><a class="brand" href="./">Liftpatch</a><nav><a href="./#scan">Scan</a><a href="./#pricing">Pricing</a><a href="modules/">Module atlas</a><a href="drupal-10-end-of-life.html">Drupal 10 EOL guide</a></nav></header>
+<main>
+<p class="deadline">Drupal 10 security support ends <strong>December 9, 2026</strong>.</p>
+
+<h1>How much does a Drupal 10 to 11 upgrade cost?</h1>
+<p class="lede">For a typical small site (core plus 20 to 40 contributed modules and one or two custom modules), expect roughly <strong>$1,500 to $2,500</strong> as a fixed price, or one to three developer-days if you do it yourself. Sites with abandoned modules, heavy custom code or old themes cost more. The price is driven by a short list of things you can measure in ten minutes.</p>
+<h2>What moves the price</h2>
+<ul>
+<li><strong>Contributed modules that already support Drupal 11.</strong> These are mostly a version bump and a test run. Cheap.</li>
+<li><strong>Modules that need a major-version jump.</strong> The module changed its configuration or API between versions, so the update needs checking and sometimes a config migration.</li>
+<li><strong>Modules with no Drupal 11 release.</strong> This is the biggest cost driver. Options are a community compatibility patch from the issue queue, writing one, or replacing the module. Each is real work.</li>
+<li><strong>Core modules that left core</strong> (Action UI, Book, Forum, Statistics, Tour, Activity Tracker). Each becomes a contrib module you must install and verify. <a href="drupal-core-modules-removed-in-11.html">Details here</a>.</li>
+<li><strong>Custom modules and themes.</strong> Cost scales with the amount of code and with how many deprecated APIs it calls. A theme on a removed base theme (Classy, Stable, Seven, Bartik) needs a real fix.</li>
+<li><strong>Your starting version.</strong> Drupal 11 needs you on 10.3 or later first. Older sites pay for the catch-up.</li>
+<li><strong>Testing.</strong> A site with an automated test suite is faster and safer to upgrade than one that needs manual verification.</li>
+</ul>
+<h2>Liftpatch's published prices</h2>
+<p>These are the actual line items the free scanner uses, so you can price your own site:</p>
+<table class="quote"><tbody>
+<tr><td>Core 10 to 11, Composer and Drush, tested patch set (includes up to 20 contrib modules)</td><td>$1,490</td></tr>
+<tr><td>Each additional contrib module with a Drupal 11 release</td><td>$25</td></tr>
+<tr><td>Contrib module needing a major-version jump</td><td>$120</td></tr>
+<tr><td>Contrib module with only a pre-release for Drupal 11</td><td>$90</td></tr>
+<tr><td>Contrib module with no Drupal 11 release (port or replace)</td><td>$290</td></tr>
+<tr><td>Private or non-drupal.org package</td><td>$190</td></tr>
+<tr><td>Core module that moved to contrib</td><td>$190</td></tr>
+<tr><td>Custom module or theme</td><td>$190 each, plus $30 per deprecated-API hit (capped at $1,500)</td></tr>
+<tr><td>Core below 10.3 (catch-up first)</td><td>$240</td></tr>
+<tr><td>Custom code beyond 2,000 lines</td><td>$60 per extra 1,000 lines</td></tr>
+</tbody></table>
+<p>Agencies pay 30% less on every line, and the first agency site is half price. Under $3,000 you pay in full on order; above that, 50% on order and 50% on delivery. If a green patch set can't be delivered, you get a full refund. The work is delivered as a tested pull request with verification logs and a deploy runbook; you merge and deploy yourself. <a href="sample/">See a sample delivery</a>.</p>
+<h2>What it costs to do it yourself</h2>
+<p>If you have a Drupal developer, the cost is their time. Plan on a day to measure and fix a small site with Upgrade Status and Rector, plus extra days for each module with no Drupal 11 release and for custom code. The <a href="drupal-10-end-of-life.html">end-of-life guide</a> lists the exact commands. Rector and Upgrade Status are free; the expensive part is whoever reviews the diff and tests the site.</p>
+<h2>The cost of waiting</h2>
+<p>After December 9, 2026 Drupal 10 gets no more security releases. Quotes from agencies tend to rise and calendars fill as the date approaches, so the cheapest time to get a firm price is now.</p>
+
+<p class="cta"><a class="primary big" href="./#scan">Scan your composer.lock: free, in your browser, fixed quote in 30 seconds</a></p>
+<p class="hint">Related: <a href="drupal-10-end-of-life.html">Drupal 10 end-of-life guide</a> · <a href="drupal-11-upgrade-cost.html">Upgrade cost</a> · <a href="drupal-11-requirements.html">Requirements</a> · <a href="drupal-11-composer-errors.html">Composer errors</a> · <a href="drupal-core-modules-removed-in-11.html">Modules removed from core</a> · <a href="modules/">Module atlas</a>. Liftpatch is independent and not affiliated with the Drupal Association. Drupal is a registered trademark of Dries Buytaert.</p>
+</main>
+<footer><p><a href="terms.html">Terms &amp; privacy</a></p></footer>
+<script data-goatcounter="https://liftpatch.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body></html>
