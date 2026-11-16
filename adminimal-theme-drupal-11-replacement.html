@@ -1,0 +1,32 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self' https://gc.zgo.at; connect-src https://liftpatch.goatcounter.com; img-src 'self' data:">
+<title>Adminimal theme and Adminimal Admin Toolbar on Drupal 11: what to use instead | Liftpatch</title>
+<meta name="description" content="Adminimal theme and Adminimal Admin Toolbar have no Drupal 11 release. How to move to the Claro admin theme and Admin Toolbar before you upgrade from Drupal 10.">
+<link rel="canonical" href="https://beingrealfrank.github.io/liftpatch/adminimal-theme-drupal-11-replacement.html"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Adminimal theme and Adminimal Admin Toolbar on Drupal 11: what to use instead","datePublished":"2026-11-16","author":{"@type":"Organization","name":"Liftpatch"},"mainEntityOfPage":"https://beingrealfrank.github.io/liftpatch/adminimal-theme-drupal-11-replacement.html"}</script></head><body>
+<header class="top"><a class="brand" href="./">Liftpatch</a><nav><a href="./#scan">Scan</a><a href="./#pricing">Pricing</a><a href="modules/">Module atlas</a><a href="drupal-10-end-of-life.html">Drupal 10 EOL guide</a></nav></header>
+<main>
+<p class="deadline">Drupal 10 security support ends <strong>December 9, 2026</strong>.</p>
+
+
+<h1>Adminimal theme on Drupal 11: moving to Claro</h1>
+<p class="lede">The atlas shows <code>drupal/adminimal_theme</code> and <code>drupal/adminimal_admin_toolbar</code> with no Drupal 11 release (their latest versions declare support for Drupal 10 and earlier). Sites using them for the admin interface need another admin theme before they can move core to 11.</p>
+<h2>Check what you use</h2>
+<pre><code>drush config:get system.theme admin
+composer show "drupal/adminimal*"</code></pre>
+<h2>The replacement path</h2>
+<ol>
+<li><strong>Switch to Claro.</strong> Claro is core's administration theme in Drupal 10 and 11. At <code>/admin/appearance</code>, set Claro as the administration theme and check the content, media and views admin pages.</li>
+<li><strong>Replace the toolbar.</strong> If you used Adminimal Admin Toolbar, install the contributed <code>drupal/admin_toolbar</code> module, which provides the dropdown menu and is maintained for Drupal 11 (check its project page for the version).</li>
+<li><strong>Move customisations.</strong> Any CSS you added to the Adminimal theme must be reapplied via a small admin-facing module or sub-theme of Claro.</li>
+<li><strong>Remove the old packages</strong> with <code>composer remove drupal/adminimal_theme drupal/adminimal_admin_toolbar</code> once nothing references them, and clear caches.</li>
+<li>Then <a href="drupal-11-composer-errors.html">update core</a>.</li>
+</ol>
+<p>This is a visual change for your editors, so tell them before it ships and check any custom forms in the new theme. Use the <a href="./#scan">scanner</a> for the cost of each blocker in your own lock file.</p>
+
+<p class="cta"><a class="primary big" href="./#scan">Scan your composer.lock: free, in your browser, fixed quote in 30 seconds</a></p>
+<p class="hint">Related: <a href="drupal-10-end-of-life.html">Drupal 10 end-of-life guide</a> · <a href="drupal-11-upgrade-cost.html">Upgrade cost</a> · <a href="drupal-11-requirements.html">Requirements</a> · <a href="drupal-11-composer-errors.html">Composer errors</a> · <a href="drupal-core-modules-removed-in-11.html">Modules removed from core</a> · <a href="modules/">Module atlas</a>. Liftpatch is independent and not affiliated with the Drupal Association. Drupal is a registered trademark of Dries Buytaert.</p>
+</main>
+<footer><p><a href="terms.html">Terms &amp; privacy</a></p></footer>
+<script data-goatcounter="https://liftpatch.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body></html>

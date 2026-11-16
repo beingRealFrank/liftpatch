@@ -1,0 +1,35 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self' https://gc.zgo.at; connect-src https://liftpatch.goatcounter.com; img-src 'self' data:">
+<title>Swift Mailer module and Drupal 11: replacing it with Symfony Mailer | Liftpatch</title>
+<meta name="description" content="The Swift Mailer module has no Drupal 11 release and is unsupported. How to find where your site uses it and move email sending to Symfony Mailer before upgrading to Drupal 11.">
+<link rel="canonical" href="https://beingrealfrank.github.io/liftpatch/swiftmailer-drupal-11-replacement.html"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Swift Mailer module and Drupal 11: replacing it with Symfony Mailer","datePublished":"2026-11-16","author":{"@type":"Organization","name":"Liftpatch"},"mainEntityOfPage":"https://beingrealfrank.github.io/liftpatch/swiftmailer-drupal-11-replacement.html"}</script></head><body>
+<header class="top"><a class="brand" href="./">Liftpatch</a><nav><a href="./#scan">Scan</a><a href="./#pricing">Pricing</a><a href="modules/">Module atlas</a><a href="drupal-10-end-of-life.html">Drupal 10 EOL guide</a></nav></header>
+<main>
+<p class="deadline">Drupal 10 security support ends <strong>December 9, 2026</strong>.</p>
+
+
+<h1>Swift Mailer and Drupal 11: what to replace it with</h1>
+<p class="lede">The <code>drupal/swiftmailer</code> module has no Drupal 11 release, and its listing shows it as unsupported. If your site sends email through it, you have to move to another mailer before Drupal 11, and test every message type your site sends.</p>
+<h2>Check if you use it</h2>
+<pre><code>composer show drupal/swiftmailer
+drush pm:list --status=enabled | grep -i swift
+drush config:get system.mail interface</code></pre>
+<p>If <code>system.mail</code> routes mail through Swift Mailer, it is the active mail system. Also search custom code for <code>swiftmailer</code> references. Paste your <code>composer.lock</code> into the <a href="./#scan">scanner</a> to see it classed as "no Drupal 11 release" with its cost.</p>
+<h2>The usual replacement</h2>
+<p>The common choice is the contributed <strong>Symfony Mailer</strong> module (<code>drupal/symfony_mailer</code>), which is built on the maintained Symfony Mailer library. Plan on these steps, on a copy of the site first:</p>
+<ol>
+<li>Install it on Drupal 10 and configure the transport (SMTP host, credentials, or sendmail) to match what Swift Mailer used.</li>
+<li>Recreate any per-message settings: from address, reply-to, HTML versus plain text, and any email theme templates.</li>
+<li>Send a test of every message your site produces: user registration, password reset, webform notifications, commerce receipts, and so on. Check headers, formatting and delivery.</li>
+<li>Switch the mail interface to the new module, uninstall Swift Mailer and remove it with Composer.</li>
+<li>Then <a href="drupal-11-composer-errors.html">move core to 11</a>.</li>
+</ol>
+<p>Confirm the current recommended replacement and its Drupal 11 release on the module's drupal.org page before you start, because recommendations change. Modules that depended on Swift Mailer, such as some webform and commerce mail handlers, need their own check; the <a href="modules/">atlas</a> shows each one's status.</p>
+
+<p class="cta"><a class="primary big" href="./#scan">Scan your composer.lock: free, in your browser, fixed quote in 30 seconds</a></p>
+<p class="hint">Related: <a href="drupal-10-end-of-life.html">Drupal 10 end-of-life guide</a> · <a href="drupal-11-upgrade-cost.html">Upgrade cost</a> · <a href="drupal-11-requirements.html">Requirements</a> · <a href="drupal-11-composer-errors.html">Composer errors</a> · <a href="drupal-core-modules-removed-in-11.html">Modules removed from core</a> · <a href="modules/">Module atlas</a>. Liftpatch is independent and not affiliated with the Drupal Association. Drupal is a registered trademark of Dries Buytaert.</p>
+</main>
+<footer><p><a href="terms.html">Terms &amp; privacy</a></p></footer>
+<script data-goatcounter="https://liftpatch.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body></html>

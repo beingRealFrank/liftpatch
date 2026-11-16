@@ -1,0 +1,34 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self' https://gc.zgo.at; connect-src https://liftpatch.goatcounter.com; img-src 'self' data:">
+<title>Modules whose only Drupal 11 release is alpha, beta or RC | Liftpatch</title>
+<meta name="description" content="15 popular Drupal modules currently have only a pre-release version for Drupal 11. The list, the risk and how to decide whether to use it or wait.">
+<link rel="canonical" href="https://beingrealfrank.github.io/liftpatch/drupal-11-prerelease-modules.html"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Modules whose only Drupal 11 release is alpha, beta or RC","datePublished":"2026-11-16","author":{"@type":"Organization","name":"Liftpatch"},"mainEntityOfPage":"https://beingrealfrank.github.io/liftpatch/drupal-11-prerelease-modules.html"}</script></head><body>
+<header class="top"><a class="brand" href="./">Liftpatch</a><nav><a href="./#scan">Scan</a><a href="./#pricing">Pricing</a><a href="modules/">Module atlas</a><a href="drupal-10-end-of-life.html">Drupal 10 EOL guide</a></nav></header>
+<main>
+<p class="deadline">Drupal 10 security support ends <strong>December 9, 2026</strong>.</p>
+
+
+<h1>Modules whose only Drupal 11 release is a pre-release</h1>
+<p class="lede">In our <a href="modules/">atlas</a> of 212 popular modules, <strong>15</strong> are classed "pre-release": the version that supports Drupal 11 (or the next major) is still an alpha, beta or release candidate. Data from packages.drupal.org, checked 2026-11-14.</p>
+<table class="quote"><thead><tr><th>Module</th><th>Pre-release / latest version</th><th>Maintenance</th></tr></thead><tbody><tr><td><a href="modules/config_update.html">config_update</a></td><td>2.0.0-alpha4</td><td>Actively maintained</td></tr><tr><td><a href="modules/login_destination.html">login_destination</a></td><td>2.0.0-beta10</td><td>Actively maintained</td></tr><tr><td><a href="modules/ultimate_cron.html">ultimate_cron</a></td><td>2.0.0-beta2</td><td>Actively maintained</td></tr><tr><td><a href="modules/viewsreference.html">viewsreference</a></td><td>2.0.0-beta14</td><td>not listed</td></tr><tr><td><a href="modules/block_field.html">block_field</a></td><td>1.0.0-rc5</td><td>Actively maintained</td></tr><tr><td><a href="modules/seven.html">seven</a></td><td>2.0.0-beta8</td><td>Minimally maintained</td></tr><tr><td><a href="modules/color.html">color</a></td><td>2.0.0-alpha1</td><td>Seeking co-maintainer(s)</td></tr><tr><td><a href="modules/calendar.html">calendar</a></td><td>1.0.0-beta5</td><td>Actively maintained</td></tr><tr><td><a href="modules/entity_clone.html">entity_clone</a></td><td>2.2.0-beta1</td><td>Actively maintained</td></tr><tr><td><a href="modules/conditional_fields.html">conditional_fields</a></td><td>4.0.0-alpha6</td><td>Actively maintained</td></tr><tr><td><a href="modules/migrate_file.html">migrate_file</a></td><td>3.0.0-alpha1</td><td>not listed</td></tr><tr><td><a href="modules/feeds_ex.html">feeds_ex</a></td><td>1.0.0-beta5</td><td>not listed</td></tr><tr><td><a href="modules/feeds_tamper.html">feeds_tamper</a></td><td>2.0.0-rc1</td><td>not listed</td></tr><tr><td><a href="modules/votingapi.html">votingapi</a></td><td>4.0.0-alpha1</td><td>not listed</td></tr><tr><td><a href="modules/cdn.html">cdn</a></td><td>5.0.0-alpha1</td><td>Actively maintained</td></tr></tbody></table>
+<h2>Should you use a pre-release?</h2>
+<ul>
+<li><strong>Beta or RC from an actively maintained project:</strong> usually fine. Pin the exact version, read the release notes, test the features you rely on.</li>
+<li><strong>Alpha:</strong> expect changes. Check the issue queue for open critical bugs before you commit.</li>
+<li><strong>Project seeking co-maintainers or minimally maintained:</strong> plan an exit. Look for a replacement or budget for fixing it yourself.</li>
+</ul>
+<h2>How to install and keep it safe</h2>
+<pre><code>composer require drupal/entity_clone:2.2.0-beta1
+# allow it explicitly if needed
+composer config minimum-stability dev
+composer config prefer-stable true</code></pre>
+<p>Pinning an exact version keeps Composer from drifting to a different pre-release. Re-check the project each month until a stable release appears. Some modules in the table have a different major (for example a 2.x beta) that needs a configuration update, so read the upgrade notes; in the <a href="./#scan">scanner</a> these count as a major-version jump or pre-release line in your quote.</p>
+<p>See also <a href="drupal-11-composer-errors.html">Composer errors when updating to Drupal 11</a>.</p>
+
+<p class="cta"><a class="primary big" href="./#scan">Scan your composer.lock: free, in your browser, fixed quote in 30 seconds</a></p>
+<p class="hint">Related: <a href="drupal-10-end-of-life.html">Drupal 10 end-of-life guide</a> · <a href="drupal-11-upgrade-cost.html">Upgrade cost</a> · <a href="drupal-11-requirements.html">Requirements</a> · <a href="drupal-11-composer-errors.html">Composer errors</a> · <a href="drupal-core-modules-removed-in-11.html">Modules removed from core</a> · <a href="modules/">Module atlas</a>. Liftpatch is independent and not affiliated with the Drupal Association. Drupal is a registered trademark of Dries Buytaert.</p>
+</main>
+<footer><p><a href="terms.html">Terms &amp; privacy</a></p></footer>
+<script data-goatcounter="https://liftpatch.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body></html>
