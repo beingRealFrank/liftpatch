@@ -1,0 +1,96 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self' https://gc.zgo.at; connect-src https://liftpatch.goatcounter.com; img-src 'self' data:">
+<title>Drupal 10 end of life (December 9, 2026): what to do | Liftpatch</title>
+<meta name="description" content="Drupal 10 security support ends December 9, 2026. The dates, your three options, the exact commands to upgrade to Drupal 11, and when to pay for it.">
+<link rel="canonical" href="https://beingrealfrank.github.io/liftpatch/drupal-10-end-of-life.html"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css"></head><body>
+<header class="top"><a class="brand" href="./">Liftpatch</a><nav><a href="./#scan">Scan</a><a href="./#pricing">Pricing</a><a href="modules/">Module atlas</a></nav></header>
+<main>
+<h1>Drupal 10 end of life: what to do before December 9, 2026</h1>
+<p class="lede">Drupal 10 stops receiving security releases on <strong>December 9, 2026</strong>. This page sets out the dates, the three realistic options, the commands for a self-upgrade, and when it makes sense to pay someone. It is written for the person who owns the site and has to decide this month.</p>
+
+<h2>The dates that matter</h2>
+<p>The official schedule is on drupal.org's <a href="https://www.drupal.org/node/2383987">core release schedule</a>. Read it directly, because dates have moved before. As of this writing:</p>
+<ul>
+<li><strong>Drupal 10 reaches end of life on December 9, 2026.</strong> After that there are no further Drupal 10 releases, including security releases. 10.6 is the last Drupal 10 minor version. <a href="https://www.thedroptimes.com/node/66487">The Drop Times covered the announcement</a>, and <a href="https://endoflife.date/drupal">endoflife.date</a> tracks every branch in one table.</li>
+<li><strong>Drupal 11.3 and 10.6 lose security support in the same release window</strong> (the week of December 7, 2026, when 11.5 and 12.0 are scheduled). That has a practical consequence: if you are going to upgrade, aim for Drupal 11.4 or later, not 11.3. Landing on 11.3 would put you on a branch that ends within weeks of Drupal 10.</li>
+<li><strong>Drupal 11.4 security support runs into 2027</strong> according to the drupal.org schedule. Some third-party trackers show a different end date for 11.4, so use drupal.org as the source of truth.</li>
+</ul>
+<p>Hosting providers have published their own guidance: see <a href="https://pantheon.io/learning-center/drupal/10-end-of-life">Pantheon's end-of-life overview</a> and <a href="https://docs.acquia.com/md/service-offerings/drupal-10x-end-life-faqs">Acquia's Drupal 10 end-of-life FAQ</a>. If you are on a managed platform, check what your host will do after the date before you decide anything.</p>
+
+<h2>What actually happens on December 10</h2>
+<p>Nothing breaks on the day. Your site keeps running. What changes is the risk profile:</p>
+<ul>
+<li>New core vulnerabilities are announced and patched for supported branches only. Attackers read those announcements and diff the fix, so the unpatched branch becomes an easier target, not a neutral one.</li>
+<li>Contributed modules drop Drupal 10 support over the following months. New releases require Drupal 11, so staying on 10 means freezing every module at its last Drupal 10 version.</li>
+<li>Your hosting provider, insurer, auditor or procurement contract may treat an unsupported CMS as a compliance finding regardless of whether you have been attacked.</li>
+<li>PHP versions age out underneath you. Drupal 11 needs PHP 8.3 or newer, and running an old Drupal 10 on an old PHP gets harder to justify each quarter.</li>
+</ul>
+
+<h2>Your three options</h2>
+<table class="quote"><thead><tr><th>Option</th><th>Best when</th><th>Cost and risk</th></tr></thead><tbody>
+<tr><td><strong>Stay on 10.6 with a paid extended-support arrangement</strong></td><td>A major redesign or rebuild is already planned for 2027, and a vendor will contractually backport security fixes.</td><td>Recurring fee, no new features, modules still drift. It buys time; it does not fix anything. Confirm in writing what is covered.</td></tr>
+<tr><td><strong>Self-upgrade to Drupal 11</strong></td><td>You have a developer, a staging environment and a test suite, and the site has few custom modules.</td><td>Mostly time. A small site with well-maintained modules can take a day or two; one with abandoned modules or heavy custom code takes much longer.</td></tr>
+<tr><td><strong>Buy the upgrade as a fixed-price job</strong></td><td>You want a tested pull request by a date, and not an open-ended project.</td><td>Fixed price, delivered as a diff you review and deploy yourself. See the <a href="./#scan">free scan and quote</a>.</td></tr>
+</tbody></table>
+
+<h2>How to upgrade yourself, step by step</h2>
+<p>This is the same sequence we use. Run it on a copy of the site, never on production.</p>
+
+<h3>1. Get to the last Drupal 10 minor first</h3>
+<p>Drupal 11 requires you to be on 10.3 or later before you move. Updating to 10.6 first also surfaces breakage while you can still roll back to a known-good state:</p>
+<pre><code>composer require drupal/core-recommended:^10.6 drupal/core-composer-scaffold:^10.6 drupal/core-project-message:^10.6 --update-with-all-dependencies
+drush updatedb -y &amp;&amp; drush cache:rebuild</code></pre>
+
+<h3>2. Measure what blocks you</h3>
+<p>Install <a href="https://www.drupal.org/project/upgrade_status">Upgrade Status</a> and run it across every enabled module and theme:</p>
+<pre><code>composer require --dev drupal/upgrade_status
+drush en upgrade_status -y
+drush upgrade_status:analyze --all</code></pre>
+<p>It reports, per project, whether a Drupal 11 compatible release exists and which deprecated APIs your custom code still calls. You can also paste your <code>composer.lock</code> into the <a href="./#scan">Liftpatch scanner</a> for the same answer with a price attached, without uploading anything. For a single module, check the <a href="modules/">compatibility atlas</a>.</p>
+
+<h3>3. Fix custom code with Rector</h3>
+<p><a href="https://github.com/palantirnet/drupal-rector">Drupal Rector</a> rewrites many deprecated calls automatically. Review the diff before you accept it:</p>
+<pre><code>composer require --dev palantirnet/drupal-rector
+vendor/bin/rector process web/modules/custom --dry-run
+vendor/bin/rector process web/modules/custom</code></pre>
+<p>Rector does not catch everything. Expect to fix by hand: removed procedural functions, base themes that left core (Classy, Stable, Seven, Bartik), and jQuery.once usage that should move to core/once.</p>
+
+<h3>4. Handle modules that left core</h3>
+<p>Several core modules became contributed projects in Drupal 11, including Action UI, Book, Forum, Statistics, Tour and Activity Tracker. If your site has any of them enabled, install the contrib replacement while you are still on Drupal 10, and uninstall nothing until the replacement is verified.</p>
+
+<h3>5. Resolve modules with no Drupal 11 release</h3>
+<p>For each blocker you have four routes: update to a newer release, apply a community compatibility patch from the project's issue queue, replace the module with a maintained alternative, or write the patch yourself and offer it upstream. Composer can tell you exactly what is holding the version constraint:</p>
+<pre><code>composer why-not drupal/core 11.4.0</code></pre>
+
+<h3>6. Move core to 11</h3>
+<pre><code>composer require drupal/core-recommended:^11.4 drupal/core-composer-scaffold:^11.4 drupal/core-project-message:^11.4 --update-with-all-dependencies
+drush updatedb -y &amp;&amp; drush cache:rebuild</code></pre>
+<p>You will also need PHP 8.3 or newer, Drush 13 and Composer 2.7 or newer, and a database that Drupal 11 supports (MySQL 8.0, MariaDB 10.6, PostgreSQL 16 or SQLite 3.45).</p>
+
+<h3>7. Test before you deploy</h3>
+<p>Run your automated tests, then walk the critical paths by hand: login, content editing, any checkout or form that makes money, search, and anything integrated with an outside service. Keep the database backup and the Drupal 10 codebase tagged so rollback is a single deploy.</p>
+
+<h2>What usually goes wrong</h2>
+<ul>
+<li><strong>CKEditor 4 still in use.</strong> Drupal 10 already moved editors to CKEditor 5. Sites with old text formats or custom CKEditor plugins need that migration done before Drupal 11.</li>
+<li><strong>One abandoned module blocks everything.</strong> Composer will refuse the core update until every package allows Drupal 11. Find these in step 2, not at deploy time.</li>
+<li><strong>Custom themes built on removed base themes.</strong> These need a real fix, not a patch.</li>
+<li><strong>Waiting until December.</strong> Every agency and freelancer has the same deadline. Capacity gets scarce and quotes rise as the date approaches, so the cheapest week to start is this one.</li>
+</ul>
+
+<h2>When paying someone makes sense</h2>
+<p>Buy the upgrade if your team has no time before the deadline, if the scan shows more than a handful of blockers, if custom code is substantial, or if nobody in the organisation wants to own a risky deploy. Liftpatch sells it as a fixed price from your scan, delivered as a tested pull request with the verification logs and a deploy runbook. You merge and deploy; nothing touches production. <a href="sample/">See a sample delivery</a>, or <a href="./#scan">scan your site</a> to get a price in about ten seconds. Agencies handling several client sites should read the <a href="agencies.html">agency terms</a>.</p>
+
+<h2>Decision checklist</h2>
+<ol>
+<li>Is your site on Drupal 10.3 or later? If not, that catch-up comes first.</li>
+<li>Run Upgrade Status or the scanner. How many projects have no Drupal 11 release?</li>
+<li>Do you have custom modules or themes? How large?</li>
+<li>Is there a test suite or a staging site you trust?</li>
+<li>Can your team finish before December 9, with margin for review? If not, buy it or buy time with a written extended-support commitment.</li>
+</ol>
+<p class="hint">Liftpatch is independent and not affiliated with the Drupal Association. Drupal is a registered trademark of Dries Buytaert. Dates were checked against the sources linked above on 2026-11-16; confirm them before you commit to a plan.</p>
+</main>
+<footer><p>Not affiliated with the Drupal Association. Drupal is a registered trademark of Dries Buytaert. <a href="terms.html">Terms &amp; privacy</a></p></footer>
+<script data-goatcounter="https://liftpatch.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body></html>
