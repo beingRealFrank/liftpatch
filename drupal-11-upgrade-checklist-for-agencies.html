@@ -1,0 +1,39 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self' https://gc.zgo.at; connect-src https://liftpatch.goatcounter.com; img-src 'self' data:">
+<title>Drupal 11 upgrade checklist for agencies with many client sites | Liftpatch</title>
+<meta name="description" content="A repeatable checklist for upgrading many client Drupal 10 sites before December 9, 2026: triage, scope, batching, testing, deploy and rollback.">
+<link rel="canonical" href="https://beingrealfrank.github.io/liftpatch/drupal-11-upgrade-checklist-for-agencies.html"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Drupal 11 upgrade checklist for agencies with many client sites","datePublished":"2026-11-16","author":{"@type":"Organization","name":"Liftpatch"},"mainEntityOfPage":"https://beingrealfrank.github.io/liftpatch/drupal-11-upgrade-checklist-for-agencies.html"}</script></head><body>
+<header class="top"><a class="brand" href="./">Liftpatch</a><nav><a href="./#scan">Scan</a><a href="./#pricing">Pricing</a><a href="modules/">Module atlas</a><a href="drupal-10-end-of-life.html">Drupal 10 EOL guide</a></nav></header>
+<main>
+<p class="deadline">Drupal 10 security support ends <strong>December 9, 2026</strong>.</p>
+
+
+<h1>Drupal 11 upgrade checklist for agencies</h1>
+<p class="lede">With Drupal 10 security support ending on December 9, 2026, an agency with 20 client sites has a capacity problem more than a technical one. This checklist turns the work into a repeatable process.</p>
+<h2>1. Triage every site in one afternoon</h2>
+<ul>
+<li>Export each site's <code>composer.lock</code>. Scan it with the <a href="./#scan">free scanner</a> (it runs in the browser) or run <a href="drupal-10-end-of-life.html">Upgrade Status</a>.</li>
+<li>Record for each site: core version, PHP version, number of contrib modules, modules with no Drupal 11 release, custom code size, test coverage.</li>
+<li>Sort into three bins: <em>easy</em> (all modules ready), <em>medium</em> (a few blockers), <em>hard</em> (abandoned modules, custom themes on removed base themes, no tests).</li>
+</ul>
+<h2>2. Contact clients on the date, not the technology</h2>
+<p>Tell clients that security fixes for their version stop on December 9, 2026, what it costs to move, and what happens if they don't. Get approval and repository access early; waiting on access is what usually delays upgrades.</p>
+<h2>3. Do it in two releases per site</h2>
+<ol>
+<li>Release one: move to Drupal 10.6, update contrib to versions that support both 10 and 11, switch editors and removed core modules. Deploy. This is low risk.</li>
+<li>Release two: move core to 11.4 or later. <a href="drupal-11-composer-errors.html">Resolve any Composer blockers</a>, then deploy.</li>
+</ol>
+<h2>4. Batch the easy sites</h2>
+<p>For the easy bin, use the same branch naming, PR template and deploy runbook for every site. A checklist per site beats custom planning each time.</p>
+<h2>5. Test and keep a rollback</h2>
+<p>Run each site's tests, walk the money paths by hand, tag the Drupal 10 code and keep a database backup so rollback is one deploy.</p>
+<h2>6. Know when to hand work off</h2>
+<p>If you have more sites than developer-days before the deadline, outsource the easy and medium bins. Liftpatch does this as a <a href="agencies.html">white-label fixed-price service at 30% off</a>, delivered as pull requests you review and merge under your name. <a href="sample/">See a sample delivery</a>.</p>
+
+<p class="cta"><a class="primary big" href="./#scan">Scan your composer.lock: free, in your browser, fixed quote in 30 seconds</a></p>
+<p class="hint">Related: <a href="drupal-10-end-of-life.html">Drupal 10 end-of-life guide</a> · <a href="drupal-11-upgrade-cost.html">Upgrade cost</a> · <a href="drupal-11-requirements.html">Requirements</a> · <a href="drupal-11-composer-errors.html">Composer errors</a> · <a href="drupal-core-modules-removed-in-11.html">Modules removed from core</a> · <a href="modules/">Module atlas</a>. Liftpatch is independent and not affiliated with the Drupal Association. Drupal is a registered trademark of Dries Buytaert.</p>
+</main>
+<footer><p><a href="terms.html">Terms &amp; privacy</a></p></footer>
+<script data-goatcounter="https://liftpatch.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body></html>

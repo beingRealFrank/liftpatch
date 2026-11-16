@@ -1,0 +1,31 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self' https://gc.zgo.at; connect-src https://liftpatch.goatcounter.com; img-src 'self' data:">
+<title>Classy, Stable, Seven and Bartik themes in Drupal 11: what to do | Liftpatch</title>
+<meta name="description" content="Drupal 11 removed the Classy, Stable, Seven and Bartik themes from core. How to find themes that depend on them and move to Stable 9, Starterkit or a contrib theme before you upgrade.">
+<link rel="canonical" href="https://beingrealfrank.github.io/liftpatch/drupal-base-themes-removed-classy-stable-seven.html"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Classy, Stable, Seven and Bartik themes in Drupal 11: what to do","datePublished":"2026-11-16","author":{"@type":"Organization","name":"Liftpatch"},"mainEntityOfPage":"https://beingrealfrank.github.io/liftpatch/drupal-base-themes-removed-classy-stable-seven.html"}</script></head><body>
+<header class="top"><a class="brand" href="./">Liftpatch</a><nav><a href="./#scan">Scan</a><a href="./#pricing">Pricing</a><a href="modules/">Module atlas</a><a href="drupal-10-end-of-life.html">Drupal 10 EOL guide</a></nav></header>
+<main>
+<p class="deadline">Drupal 10 security support ends <strong>December 9, 2026</strong>.</p>
+
+
+<h1>Classy, Stable, Seven and Bartik in Drupal 11</h1>
+<p class="lede">Custom themes that declare <code>base theme: classy</code>, <code>stable</code>, <code>seven</code> or <code>bartik</code> are a common Drupal 11 blocker, because those themes are no longer shipped in Drupal 11 core. A theme that depends on a missing base theme will not install.</p>
+<h2>Find affected themes</h2>
+<pre><code>grep -rE "base theme:\s*(classy|stable|seven|bartik)\b" web/themes/custom --include=*.info.yml</code></pre>
+<p>The <a href="./#scan">free scanner</a> runs the same check when you choose your project folder (files are read in the browser only) and adds each affected theme to your quote.</p>
+<h2>Your options</h2>
+<ol>
+<li><strong>Install the contrib version of the base theme.</strong> The removed core themes were moved to contributed projects of the same names, so the quickest route is <code>composer require drupal/classy</code> (or the matching project) while you are on Drupal 10, then verify the site. Check the project's page for a Drupal 11 release before you rely on it.</li>
+<li><strong>Rebase onto a new theme.</strong> Generate a fresh theme from core's Starterkit and move your templates, libraries and CSS across. More work, and you stop depending on an old base.</li>
+<li><strong>Copy the base templates you actually use</strong> into your theme and remove the base theme line. Good when you only used a handful of Classy templates.</li>
+</ol>
+<h2>Test the look, not just the install</h2>
+<p>Base themes supply markup and CSS classes. When one changes, spacing, forms and admin pages can shift. Compare key pages before and after in staging. Then <a href="drupal-11-composer-errors.html">move core</a>.</p>
+
+<p class="cta"><a class="primary big" href="./#scan">Scan your composer.lock: free, in your browser, fixed quote in 30 seconds</a></p>
+<p class="hint">Related: <a href="drupal-10-end-of-life.html">Drupal 10 end-of-life guide</a> · <a href="drupal-11-upgrade-cost.html">Upgrade cost</a> · <a href="drupal-11-requirements.html">Requirements</a> · <a href="drupal-11-composer-errors.html">Composer errors</a> · <a href="drupal-core-modules-removed-in-11.html">Modules removed from core</a> · <a href="modules/">Module atlas</a>. Liftpatch is independent and not affiliated with the Drupal Association. Drupal is a registered trademark of Dries Buytaert.</p>
+</main>
+<footer><p><a href="terms.html">Terms &amp; privacy</a></p></footer>
+<script data-goatcounter="https://liftpatch.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body></html>

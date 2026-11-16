@@ -1,0 +1,35 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self' https://gc.zgo.at; connect-src https://liftpatch.goatcounter.com; img-src 'self' data:">
+<title>CKEditor 4 to 5 before upgrading to Drupal 11 | Liftpatch</title>
+<meta name="description" content="Drupal 10 already uses CKEditor 5. If your text formats or custom editor plugins still depend on CKEditor 4, here is how to find them and what to fix before moving to Drupal 11.">
+<link rel="canonical" href="https://beingrealfrank.github.io/liftpatch/drupal-ckeditor-4-to-5-before-drupal-11.html"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"CKEditor 4 to 5 before upgrading to Drupal 11","datePublished":"2026-11-16","author":{"@type":"Organization","name":"Liftpatch"},"mainEntityOfPage":"https://beingrealfrank.github.io/liftpatch/drupal-ckeditor-4-to-5-before-drupal-11.html"}</script></head><body>
+<header class="top"><a class="brand" href="./">Liftpatch</a><nav><a href="./#scan">Scan</a><a href="./#pricing">Pricing</a><a href="modules/">Module atlas</a><a href="drupal-10-end-of-life.html">Drupal 10 EOL guide</a></nav></header>
+<main>
+<p class="deadline">Drupal 10 security support ends <strong>December 9, 2026</strong>.</p>
+
+
+<h1>CKEditor 4 to CKEditor 5 before Drupal 11</h1>
+<p class="lede">Drupal 10 ships with CKEditor 5 as its editor. Sites that carried CKEditor 4 text formats or custom CKEditor 4 plugins forward from Drupal 8 or 9 should clean that up while still on Drupal 10, so the Drupal 11 step is just a core move.</p>
+<h2>What to check</h2>
+<ul>
+<li><strong>Text formats.</strong> At <code>/admin/config/content/formats</code>, open each format and confirm its editor is CKEditor 5, and that no buttons are missing or marked unsupported.</li>
+<li><strong>Contrib modules that add editor buttons.</strong> Some older plugins only worked with CKEditor 4. Check each one's project page for a CKEditor 5 or Drupal 11 release; the <a href="modules/">atlas</a> lists the common ones.</li>
+<li><strong>Custom plugins.</strong> Anything in your custom modules that provides a CKEditor 4 plugin has to be rewritten for CKEditor 5.</li>
+<li><strong>Stored content.</strong> Check pages with embedded media, tables, inline styles and custom HTML after the switch. CKEditor 5 can strip markup that its configuration doesn't allow.</li>
+</ul>
+<h2>Plan</h2>
+<ol>
+<li>On Drupal 10, switch each format to CKEditor 5 on a copy of the site and review the pages that use it.</li>
+<li>Replace or rewrite plugins that don't have a CKEditor 5 equivalent.</li>
+<li>Run Upgrade Status (<a href="drupal-10-end-of-life.html">commands here</a>) and clear what it flags.</li>
+<li>Only then <a href="drupal-11-composer-errors.html">update core to 11</a>.</li>
+</ol>
+<p>Confirm details against the current Drupal documentation before you start; editor internals changed across 10.x releases.</p>
+
+<p class="cta"><a class="primary big" href="./#scan">Scan your composer.lock: free, in your browser, fixed quote in 30 seconds</a></p>
+<p class="hint">Related: <a href="drupal-10-end-of-life.html">Drupal 10 end-of-life guide</a> · <a href="drupal-11-upgrade-cost.html">Upgrade cost</a> · <a href="drupal-11-requirements.html">Requirements</a> · <a href="drupal-11-composer-errors.html">Composer errors</a> · <a href="drupal-core-modules-removed-in-11.html">Modules removed from core</a> · <a href="modules/">Module atlas</a>. Liftpatch is independent and not affiliated with the Drupal Association. Drupal is a registered trademark of Dries Buytaert.</p>
+</main>
+<footer><p><a href="terms.html">Terms &amp; privacy</a></p></footer>
+<script data-goatcounter="https://liftpatch.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body></html>
