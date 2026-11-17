@@ -3,6 +3,7 @@
 https://beingrealfrank.github.io/liftpatch/
 
 - [Drupal 11 compatibility atlas](https://beingrealfrank.github.io/liftpatch/modules/): 200+ popular modules, with the Composer line to move to
+- [Free CLI and GitHub Action](https://github.com/beingRealFrank/liftpatch-scan)
 - [Sample delivery](https://beingrealfrank.github.io/liftpatch/sample/)
 - [Agency pricing](https://beingrealfrank.github.io/liftpatch/agencies.html)
 

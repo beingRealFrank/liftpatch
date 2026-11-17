@@ -1,0 +1,46 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self' https://gc.zgo.at; connect-src https://liftpatch.goatcounter.com; img-src 'self' data:">
+<title>Check Drupal 11 readiness in CI with a GitHub Action | Liftpatch</title>
+<meta name="description" content="Add a free GitHub Action or one npx command that checks every Drupal project in composer.lock for Drupal 11 support and prints a report and fixed upgrade quote.">
+<link rel="canonical" href="https://beingrealfrank.github.io/liftpatch/drupal-11-readiness-in-ci.html"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Check Drupal 11 readiness in CI with a GitHub Action","datePublished":"2026-11-16","author":{"@type":"Organization","name":"Liftpatch"},"mainEntityOfPage":"https://beingrealfrank.github.io/liftpatch/drupal-11-readiness-in-ci.html"}</script></head><body>
+<header class="top"><a class="brand" href="./">Liftpatch</a><nav><a href="./#scan">Scan</a><a href="./#pricing">Pricing</a><a href="modules/">Module atlas</a><a href="drupal-10-end-of-life.html">Drupal 10 EOL guide</a></nav></header>
+<main>
+<p class="deadline">Drupal 10 security support ends <strong>December 9, 2026</strong>.</p>
+
+
+<h1>Check Drupal 11 readiness in CI</h1>
+<p class="lede">You can have your pipeline tell you which Drupal modules block Drupal 11, every time <code>composer.lock</code> changes. The free <a href="https://github.com/beingRealFrank/liftpatch-scan">liftpatch-scan</a> tool reads your lock file, checks each project against drupal.org release data and prints a report. Drupal 10 security support ends December 9, 2026, so a standing check is cheap insurance.</p>
+<h2>One command</h2>
+<pre><code>npx github:beingRealFrank/liftpatch-scan composer.lock</code></pre>
+<p>Add <code>--json</code> for machine-readable output or <code>--fail-on-blockers</code> to exit with an error when a project has no Drupal 11 release.</p>
+<h2>As a GitHub Action</h2>
+<pre><code>name: drupal-11-readiness
+on:
+  pull_request:
+    paths: [composer.lock]
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: beingRealFrank/liftpatch-scan@v1
+        with:
+          file: composer.lock</code></pre>
+<p>The report appears in the job summary, listing every project's status, the version to move to and a fixed price for the upgrade.</p>
+<h2>What the statuses mean</h2>
+<ul>
+<li><strong>Ready</strong>: the installed release already supports Drupal 11.</li>
+<li><strong>Update</strong>: a newer release supports Drupal 11; most also still support 10, so you can update now.</li>
+<li><strong>Major update</strong>: Drupal 11 support starts in a new major version; expect configuration changes.</li>
+<li><strong>Pre-release only</strong>: see <a href="drupal-11-prerelease-modules.html">what to do</a>.</li>
+<li><strong>Blocker</strong>: no release supports Drupal 11. See <a href="drupal-11-composer-errors.html">Composer errors and how to fix them</a>.</li>
+</ul>
+<p>Your files stay on your machine. The only network calls go to packages.drupal.org. For custom-code checks and core modules that left core, use the <a href="./#scan">in-browser scan</a>.</p>
+
+<p class="cta"><a class="primary big" href="./#scan">Scan your composer.lock: free, in your browser, fixed quote in 30 seconds</a></p>
+<p class="hint">Related: <a href="drupal-10-end-of-life.html">Drupal 10 end-of-life guide</a> · <a href="drupal-11-upgrade-cost.html">Upgrade cost</a> · <a href="drupal-11-requirements.html">Requirements</a> · <a href="drupal-11-composer-errors.html">Composer errors</a> · <a href="drupal-core-modules-removed-in-11.html">Modules removed from core</a> · <a href="modules/">Module atlas</a>. Liftpatch is independent and not affiliated with the Drupal Association. Drupal is a registered trademark of Dries Buytaert.</p>
+</main>
+<footer><p><a href="terms.html">Terms &amp; privacy</a></p></footer>
+<script data-goatcounter="https://liftpatch.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body></html>
