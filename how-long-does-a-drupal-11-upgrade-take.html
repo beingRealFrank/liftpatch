@@ -1,0 +1,42 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self' https://gc.zgo.at; connect-src https://liftpatch.goatcounter.com; img-src 'self' data:">
+<title>How long does a Drupal 10 to 11 upgrade take? | Liftpatch</title>
+<meta name="description" content="Realistic timelines for a Drupal 10 to 11 upgrade by site type, what decides the schedule, and how to plan before the December 9, 2026 end of life.">
+<link rel="canonical" href="https://beingrealfrank.github.io/liftpatch/how-long-does-a-drupal-11-upgrade-take.html"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How long does a Drupal 10 to 11 upgrade take?","datePublished":"2026-11-17","author":{"@type":"Organization","name":"Liftpatch"},"mainEntityOfPage":"https://beingrealfrank.github.io/liftpatch/how-long-does-a-drupal-11-upgrade-take.html"}</script></head><body>
+<header class="top"><a class="brand" href="./">Liftpatch</a><nav><a href="./#scan">Scan</a><a href="./#pricing">Pricing</a><a href="modules/">Module atlas</a><a href="drupal-10-end-of-life.html">Drupal 10 EOL guide</a></nav></header>
+<main>
+<p class="deadline">Drupal 10 security support ends <strong>December 9, 2026</strong>.</p>
+
+
+<h1>How long does a Drupal 10 to 11 upgrade take?</h1>
+<p class="lede">Plan on <strong>one to three working days of developer time</strong> for a small, well-maintained site, and one to several weeks for a site with abandoned modules, large custom code or no tests. Elapsed time is longer than effort because of review, staging and deploy windows. With Drupal 10 security support ending on December 9, 2026, start the measurement step now even if the work happens later.</p>
+<h2>Timeline by site type</h2>
+<table class="quote"><thead><tr><th>Site</th><th>Typical effort</th><th>What dominates</th></tr></thead><tbody>
+<tr><td>Core plus 20 to 40 contrib modules, all ready, little custom code</td><td>1 to 3 days</td><td>Composer updates, testing, deploy</td></tr>
+<tr><td>A few modules with no Drupal 11 release, a custom module or two</td><td>3 to 8 days</td><td>Patching or replacing each blocker</td></tr>
+<tr><td>Custom theme on a removed base theme, heavy custom code, abandoned modules</td><td>2 to 6 weeks</td><td>Rewrites and regression testing</td></tr>
+</tbody></table>
+<p>These are planning ranges, not guarantees. The only reliable way to size your own site is to measure it.</p>
+<h2>Measure first (about an hour)</h2>
+<ol>
+<li>Paste your <code>composer.lock</code> into the <a href="./#scan">free scanner</a> to see which modules block Drupal 11.</li>
+<li>Run Upgrade Status for custom-code findings (<a href="drupal-10-end-of-life.html">commands here</a>).</li>
+<li>Count patches in <code>composer.json</code>; each one must still apply to the new version.</li>
+</ol>
+<h2>What stretches the calendar</h2>
+<ul>
+<li><strong>Waiting for access or a staging site.</strong> Often the longest delay.</li>
+<li><strong>Client or stakeholder review.</strong> Allow time for editors to check content and forms.</li>
+<li><strong>Hosting.</strong> PHP 8.3 and Drush 13 must be available; see <a href="drupal-11-requirements.html">the requirements</a>.</li>
+<li><strong>The deadline rush.</strong> Agencies and freelancers get busy as December 9 approaches.</li>
+</ul>
+<h2>Work back from December 9</h2>
+<p>For a site that goes live on Drupal 11 by December 9, measure now, then plan two releases: first the move to 10.6 with contrib updates, then core 11. Leave a week of buffer for review and rollback. If that doesn't fit your team's calendar, <a href="drupal-11-upgrade-cost.html">a fixed-price delivery</a> as a tested pull request is an option, and <a href="sample/">there's a sample</a>.</p>
+
+<p class="cta"><a class="primary big" href="./#scan">Scan your composer.lock: free, in your browser, fixed quote in 30 seconds</a></p>
+<p class="hint">Related: <a href="drupal-10-end-of-life.html">Drupal 10 end-of-life guide</a> · <a href="drupal-11-upgrade-cost.html">Upgrade cost</a> · <a href="drupal-11-requirements.html">Requirements</a> · <a href="drupal-11-composer-errors.html">Composer errors</a> · <a href="drupal-core-modules-removed-in-11.html">Modules removed from core</a> · <a href="modules/">Module atlas</a>. Liftpatch is independent and not affiliated with the Drupal Association. Drupal is a registered trademark of Dries Buytaert.</p>
+</main>
+<footer><p><a href="terms.html">Terms &amp; privacy</a></p></footer>
+<script data-goatcounter="https://liftpatch.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body></html>

@@ -1,0 +1,41 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self' https://gc.zgo.at; connect-src https://liftpatch.goatcounter.com; img-src 'self' data:">
+<title>We checked 212 popular Drupal modules: how many are ready for Drupal 11 | Liftpatch</title>
+<meta name="description" content="Of 212 popular Drupal modules, 191 have a stable Drupal 11 release, 15 only a pre-release and 6 none. The data, the blockers and what it means for your upgrade.">
+<link rel="canonical" href="https://beingrealfrank.github.io/liftpatch/drupal-11-readiness-of-popular-modules.html"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"We checked 212 popular Drupal modules: how many are ready for Drupal 11","datePublished":"2026-11-17","author":{"@type":"Organization","name":"Liftpatch"},"mainEntityOfPage":"https://beingrealfrank.github.io/liftpatch/drupal-11-readiness-of-popular-modules.html"}</script></head><body>
+<header class="top"><a class="brand" href="./">Liftpatch</a><nav><a href="./#scan">Scan</a><a href="./#pricing">Pricing</a><a href="modules/">Module atlas</a><a href="drupal-10-end-of-life.html">Drupal 10 EOL guide</a></nav></header>
+<main>
+<p class="deadline">Drupal 10 security support ends <strong>December 9, 2026</strong>.</p>
+
+
+<h1>We checked 212 popular Drupal modules for Drupal 11 support</h1>
+<p class="lede"><strong>191 of 212</strong> have a stable release that supports Drupal 11. <strong>15</strong> have only an alpha, beta or release candidate, and <strong>6</strong> have no Drupal 11 release at all. Data from packages.drupal.org, checked 2026-11-14. Drupal 10 security support ends December 9, 2026.</p>
+<h2>Method</h2>
+<p>For each module in the <a href="modules/">Liftpatch atlas</a> we read its Composer release metadata from packages.drupal.org and looked for the newest release whose <code>drupal/core</code> constraint allows Drupal 11. A release counts as stable if its version has no alpha, beta, rc or dev suffix. The atlas covers popular modules and themes, not every project on drupal.org, so treat the numbers as a guide, not a census.</p>
+<h2>The result</h2>
+<table class="quote"><tbody>
+<tr><td>Stable Drupal 11 release available</td><td>191</td></tr>
+<tr><td>Only a pre-release for Drupal 11</td><td>15</td></tr>
+<tr><td>No Drupal 11 release</td><td>6</td></tr>
+</tbody></table>
+<p>So most popular modules are ready, and the work is concentrated in a handful of blockers. That matches how upgrades usually go: a site with 40 modules typically has zero to three that need real attention.</p>
+<h2>The 6 with no Drupal 11 release</h2>
+<ul><li><a href="modules/ckeditor.html">ckeditor</a>: latest release 1.0.2 declares core ^9.4 || ^10; maintenance status: Unsupported</li><li><a href="modules/adminimal_theme.html">adminimal_theme</a>: latest release 1.7.0 declares core ^9.3 || ^10; maintenance status: Actively maintained</li><li><a href="modules/adminimal_admin_toolbar.html">adminimal_admin_toolbar</a>: latest release 2.0.0 declares core ^8 || ^9 || ^10; maintenance status: Actively maintained</li><li><a href="modules/swiftmailer.html">swiftmailer</a>: latest release 2.4.0 declares core ^8.9.11 || ^9.0.10 || ^10; maintenance status: Unsupported</li><li><a href="modules/fivestar.html">fivestar</a>: latest release 1.0.0-alpha5 declares core ^9.2 || ^10; maintenance status: Seeking co-maintainer(s)</li><li><a href="modules/advagg.html">advagg</a>: latest release 5.0.0 declares core ^9; maintenance status: Minimally maintained</li></ul>
+<p>Several are unsupported or minimally maintained, which means the answer is replacement, not waiting. For example, see <a href="swiftmailer-drupal-11-replacement.html">Swift Mailer</a> and <a href="adminimal-theme-drupal-11-replacement.html">Adminimal</a>.</p>
+<h2>The 15 pre-release modules</h2>
+<p>See the <a href="drupal-11-prerelease-modules.html">full list and how to decide</a>. Many of these are actively maintained, so a stable release may land soon, but you cannot count on it before December 9.</p>
+<h2>What to do with your own site</h2>
+<ol>
+<li>Paste your <code>composer.lock</code> into the <a href="./#scan">free scanner</a> to see how your own modules fall into these groups.</li>
+<li>Fix the blockers first: they decide the timeline and the cost.</li>
+<li>Do the easy updates in bulk. <a href="drupal-11-composer-errors.html">Composer errors</a> and <a href="drupal-10-end-of-life.html">the step-by-step guide</a> cover the commands.</li>
+</ol>
+<p class="hint">Data is regenerated from packages.drupal.org; this page reflects the 2026-11-14 snapshot.</p>
+
+<p class="cta"><a class="primary big" href="./#scan">Scan your composer.lock: free, in your browser, fixed quote in 30 seconds</a></p>
+<p class="hint">Related: <a href="drupal-10-end-of-life.html">Drupal 10 end-of-life guide</a> · <a href="drupal-11-upgrade-cost.html">Upgrade cost</a> · <a href="drupal-11-requirements.html">Requirements</a> · <a href="drupal-11-composer-errors.html">Composer errors</a> · <a href="drupal-core-modules-removed-in-11.html">Modules removed from core</a> · <a href="modules/">Module atlas</a>. Liftpatch is independent and not affiliated with the Drupal Association. Drupal is a registered trademark of Dries Buytaert.</p>
+</main>
+<footer><p><a href="terms.html">Terms &amp; privacy</a></p></footer>
+<script data-goatcounter="https://liftpatch.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body></html>
